@@ -7,6 +7,13 @@
  */
 class Nghiphep extends MY_Controller
 {
+    function  __construct()
+    {
+        parent::__construct();
+        $this->load->model('user_model');
+        $this->load->model('letter_model');
+    }
+
     function index()
     {
         $this->data['page'] = 'nghiphep/index';
@@ -15,15 +22,35 @@ class Nghiphep extends MY_Controller
     function add()
     {
         $id =$this->input->post('id');
-        //lay du lieu
-        if($id == 4)
-            $data = array("name"=>"tu manh hung", "title"=>"phovoi");
-        else
-            $data = array("name"=>"nguyen van khoi", "title"=>"hung yen");
+        $data = $this->user_model->get_info($id);
+        echo (json_encode($data));
 
-        echo json_encode($data);
-
-//        $this->data['page'] = 'nghiphep/add';
-//        $this->load->view('main',$this->data);
     }
+    function create()
+    {
+
+        if($this->input->post())
+        {
+            $name = $this->input->post('name');
+            $approvalID = $this->input->post('approvalID');
+            $letterTypeID = $this->input->post('letterTypeID');
+            $start_at = $this->input->post('start_at');
+            $end_at = $this->input->post('end_at');
+
+            $data = array(
+                'userID' => '1',
+                'approvalID' => $approvalID,
+                'letterTypeID' => $letterTypeID,
+                'start_at' => $start_at,
+                'end_at' => $end_at,
+            );
+            if($this->letter_model->create($data))
+            {
+                echo 'Tao don thanh cong';
+            }
+            else
+                echo 'Khong thanh cong';
+        }
+    }
+
 }
