@@ -48,6 +48,10 @@
                     <option value="audi"> Từ Mạnh Hưng</option>
                 </select>
             </div>
+            <div class = "form-group">
+                <label for="exampleFormControlTextarea1">Miêu tả</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

@@ -14,7 +14,16 @@ class Nghiphep extends MY_Controller
     }
     function add()
     {
-        $this->data['page'] = 'nghiphep/add';
-        $this->load->view('main',$this->data);
+        $id =$this->input->post('id');
+        //lay du lieu
+        if($id == 4)
+            $data = array("name"=>"tu manh hung", "title"=>"phovoi");
+        else
+            $data = array("name"=>"nguyen van khoi", "title"=>"hung yen");
+
+        echo json_encode($data);
+
+//        $this->data['page'] = 'nghiphep/add';
+//        $this->load->view('main',$this->data);
     }
 }
