@@ -22,8 +22,11 @@ class Nghiphep extends MY_Controller
     function add()
     {
         $id =$this->input->post('id');
-        $data = $this->user_model->get_info($id);
-        echo (json_encode($data));
+        $data = $this->user_model->get_info(1);
+        $input['where'] = array('leader' => 1);
+        $leaders = $this->user_model->get_list($input);
+        array_push($leaders, $data);
+        echo (json_encode($leaders));
 
     }
     function create()

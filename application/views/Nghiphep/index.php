@@ -5,7 +5,7 @@
         </div>
         <div class="pull-right">
             <div class="beta-breadcrumb font-large">
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#createModel" data-whatever="@mdo">Nộp đơn mới</button>
+                <button type="button" class="btn btn-danger modal-click" data-toggle="modal" data-target="#createModel" data-whatever="@mdo">Nộp đơn mới</button>
 <!--                <a href="--><?php //echo base_url('nghiphep/add')?><!--" class ="btn btn-danger">Nộp đơn mới</a>-->
             </div>
         </div>
@@ -69,7 +69,7 @@
                         <!--                </button>-->
                     </div>
                     <div class="modal-body">
-                        <form id ="create" action="http://localhost/tinhvanmis/nghiphep/create" method="POST">
+                        <form id ="create" action="http://localhost/tinhvanmis/nghiphep/add" method="POST">
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Nhân Viên</label>
                                 <input readonly type="text" class="form-control" id="name" placeholder="Example input" name = "name" value="Từ Mạnh Hưng">
@@ -129,11 +129,17 @@
             $('.modal-click').click(function (event) {
                 var id = $(this).attr('id');
                 $.post('http://localhost/tinhvanmis/nghiphep/add',{id:id},function (data) {
+                    <?php foreach ($data as $db): ?>
+                        
+                    <?php endforeach ?>
                     var obj= JSON.parse(data);
-                    $('#createModel .modal-body').find("#name").val(obj.name);
-                    $('#createModel .modal-body').find("#title").val(obj.id);
+                    // var db = json_decode(data);
+                    // console.log(obj);
+                    alert((obj));
+                    // $('#createModel .modal-body').find("#name").val(obj.name);
+                    // $('#createModel .modal-body').find("#title").val(obj.id);
                 });
-                $('#createModel').modal('show');
+                // $('#createModel').modal('show');
 
             });
             $("#create").submit(function(e) {
