@@ -25,39 +25,25 @@
             <th scope="col">Trạng thái</th>
             <th scope="col">Người phê duyệt</th>
             <th scope="col">Ngày phê duyệt</th>
-            <th scope="col">Lý do</th>
             <th scope="col">Thao tác</th>
         </tr>
         </thead>
         <tbody>
+            <?php foreach ($data as $row):?>
         <tr>
-            <th scope="row">1</th>
-            <td>Từ Mạnh Hưng</td>
-            <td>Nghỉ phép</td>
-            <td>28:04:2018 15:30:00</td>
-            <td>Chờ xử lý</td>
-            <td>Nguyễn Văn Thắng</td>
-            <td>28:04:2018 15:30:00</td>
-            <td>Nghỉ ốm</td>
+            <th scope="row"><?php echo $row->id ?></th>
+            <td><?php echo $row->userID ?></td>
+            <td><?php echo $row->letterTypeID ?></td>
+            <td><?php echo $row->created_at ?></td>
+            <td><?php echo $row->statusID ?></td>
+            <td><?php echo $row->approvalID ?></td>
+            <td><?php echo $row->approval_at ?></td>
             <td><a href="#" id ="1" class="modal-click">edit</a></td>
 <!--            <td><button type="button" class="modal-click" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"></button>-->
 <!--            </td>-->
 
         </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Từ Mạnh Hưng</td>
-            <td>Nghỉ phép</td>
-            <td>28:04:2018 15:30:00</td>
-            <td>Chờ xử lý</td>
-            <td>Nguyễn Văn Thắng</td>
-            <td>28:04:2018 15:30:00</td>
-            <td>Nghỉ ốm</td>
-            <td><a href="#" id ="2" class="modal-click">edit</a></td>
-<!--            <td><button type="button" class="modal-click" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"></button>-->
-<!--            </td>-->
-
-        </tr>
+       <?php endforeach; ?>
 
         <div class="modal fade" id="createModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -77,17 +63,13 @@
                             <div class="form-group">
                                 <label for="approvalID">Người phụ trách</label>
                                 <select name="approvalID" id ="approvalID" class="form-control">
-                                    <option value="1"> Nguyễn Văn Thắng</option>
-                                    <option value="2"> Nguyễn Ích Vinh</option>
-                                    <option value="3"> Nguyễn Thị Phượng</option>
-                                    <option value="4"> Từ Mạnh Hưng</option>
+                                    
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="letterTypeID">Loại đơn</label>
                                 <select name="letterTypeID" id ="letterTypeID" class="form-control">
-                                    <option value="1"> Nghỉ phép</option>
-                                    <option value="2"> Nghỉ không lương</option>
+
                                 </select>
                             </div>
                             <div class="form-group">
@@ -128,20 +110,45 @@
 
             $('.modal-click').click(function (event) {
                 var id = $(this).attr('id');
-                $.post('http://localhost/tinhvanmis/nghiphep/add',{id:id},function (data) {
-                    <?php foreach ($data as $db): ?>
-                        
-                    <?php endforeach ?>
+                    // alert(00);
+
+                $.post('http://localhost/tinhvanmis/nghiphep/approvalData',{id:1},function (data) {
                     var obj= JSON.parse(data);
-                    // var db = json_decode(data);
-                    // console.log(obj);
-                    alert((obj));
+                    var length = obj.length;
+                    $.each(obj, function (i, item) {
+                        if(i < length)
+                        {
+                            $('#approvalID').append($('<option>', { 
+                            value: item.id,
+                            text : item.name, 
+                            }));
+                        }
+                        
+                    });
+
+                });
+                $.post('http://localhost/tinhvanmis/nghiphep/letterTypeData',{id:1},function (data) {
+                    var obj= JSON.parse(data);
+                    var length = obj.length;
+                    $.each(obj, function (i, item) {
+                        if(i < length)
+                        {
+                            $('#letterTypeID').append($('<option>', { 
+                            value: item.id,
+                            text : item.name, 
+                            }));
+                        }
+                        
+                    });
+
                     // $('#createModel .modal-body').find("#name").val(obj.name);
                     // $('#createModel .modal-body').find("#title").val(obj.id);
                 });
                 // $('#createModel').modal('show');
 
             });
+
+
             $("#create").submit(function(e) {
 
                 var url = "http://localhost/tinhvanmis/nghiphep/create"; // the script where you handle the form input.
@@ -153,6 +160,9 @@
                     success: function(data)
                     {
                         alert(data); // show response from the php script.
+                        $('#createModel').modal('hide');
+                        location.reload();
+
                     }
 
                 });

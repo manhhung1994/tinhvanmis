@@ -12,12 +12,27 @@ class Nghiphep extends MY_Controller
         parent::__construct();
         $this->load->model('user_model');
         $this->load->model('letter_model');
+        $this->load->model('lettertype_model');
+
     }
 
     function index()
     {
         $this->data['page'] = 'nghiphep/index';
+        $this->data['data'] = $this->letter_model->get_list();
         $this->load->view('main',$this->data);
+    }
+    function approvalData()
+    {
+        $input['where'] = array('leader' => 1);
+        $leaders = $this->user_model->get_list($input);
+        echo (json_encode($leaders));
+
+    }
+    function letterTypeData()
+    {
+        $letterTypes = $this->lettertype_model->get_list();
+        echo (json_encode($letterTypes));
     }
     function add()
     {
