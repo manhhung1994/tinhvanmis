@@ -11,9 +11,9 @@ Class MY_Controller extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-//        $this->load->model('product_model');
-//        $this->load->model('catalog_model');
-//        $this->load->model('admin_model');
+        $this->load->model('user_model');
+        $this->load->model('letter_model');
+        $this->load->model('lettertype_model');
 //
 //        $controller = $this->uri->segment(1);
 //        switch ($controller)

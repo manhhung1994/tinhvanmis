@@ -17,4 +17,12 @@ class Home extends MY_Controller
         $this->data['page'] = 'home/index';
         $this->load->view('main',$this->data);
     }
+    function logout()
+    {
+        if($this->session->userdata('logged_in'))
+        {
+            $this->session->unset_userdata('logged_in');
+        }
+        redirect(base_url('home'));
+    }
 }

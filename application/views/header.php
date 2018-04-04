@@ -9,9 +9,15 @@
             </div>
             <div class="pull-right auto-width-right">
                 <ul class="top-details menu-beta l-inline">
-                    <li><a href="<?php echo base_url('nghiphep')?>"><i class="fa fa-user"></i>Tài khoản</a></li>
-                    <li><a href="<?php echo base_url('signup')?>">Đăng kí</a></li>
-                    <li><a href="<?php echo base_url('login')?>">Đăng nhập</a></li>
+                    <?php if(isset($this->session->userdata['logged_in'])): ?>
+                        <li><a href="<?php echo base_url('nghiphep')?>"><i class="fa fa-user"></i><?php echo $this->session->userdata['logged_in']['email'] ?></a></li>
+                        <li><a href="<?php echo base_url('home/logout')?>">Đăng xuất</a></li>
+
+                    <?php else: ?>
+                        <li><a href="<?php echo base_url('signup')?>">Đăng kí</a></li>
+                        <li><a href="<?php echo base_url('login')?>">Đăng nhập</a></li>
+                    <?php endif; ?>
+
                 </ul>
             </div>
             <div class="clearfix"></div>

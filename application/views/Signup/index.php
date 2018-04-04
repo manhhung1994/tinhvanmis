@@ -1,7 +1,7 @@
 <div class="container">
     <div id="content">
-
-        <form action="#" method="post" class="beta-form-checkout">
+        <?php $this->load->view('message',$this->data)?>
+        <form action="<?php echo base_url() ?>signup/" method="post" class="beta-form-checkout">
             <div class="row">
                 <div class="col-sm-3"></div>
                 <div class="col-sm-6">
@@ -11,33 +11,31 @@
 
                     <div class="form-block">
                         <label for="email">Email address*</label>
-                        <input type="email" id="email" required>
+                        <input name = "email" type="email" id="email" value="<?php echo set_value('email')?>">
+                        <div style ="color: red;" name="name_error" class="clear error" ><?php echo form_error('email')?></div>
+
+                    </div>
+                    <div class="form-block">
+                        <label for="password">Password*</label>
+                        <input name ="password" type="password"  >
+                        <div style ="color: red;"  name="name_error" class="clear error"><?php echo form_error('password')?></div>
+
+                    </div>
+                    <div class="form-block">
+                        <label for="re_password">Re password*</label>
+                        <input name = "re_password" type="password"  >
+                        <div style ="color: red;"  name="name_error" class="clear error"><?php echo form_error('re_password')?></div>
+
+                    </div>
+                    <div class="form-block">
+                        <label for="name">Fullname*</label>
+                        <input name = "name" type="text" id="name" value="<?php echo set_value('name')?>">
+                        <div  style ="color: red;" name="name_error" class="clear error"><?php echo form_error('name')?></div>
+
                     </div>
 
                     <div class="form-block">
-                        <label for="your_last_name">Fullname*</label>
-                        <input type="text" id="your_last_name" required>
-                    </div>
-
-                    <div class="form-block">
-                        <label for="adress">Address*</label>
-                        <input type="text" id="adress" value="Street Address" required>
-                    </div>
-
-
-                    <div class="form-block">
-                        <label for="phone">Phone*</label>
-                        <input type="text" id="phone" required>
-                    </div>
-                    <div class="form-block">
-                        <label for="phone">Password*</label>
-                        <input type="text" id="phone" required>
-                    </div>
-                    <div class="form-block">
-                        <label for="phone">Re password*</label>
-                        <input type="text" id="phone" required>
-                    </div>
-                    <div class="form-block">
+                        <?php echo form_error('login')?>
                         <button type="submit" class="btn btn-primary">Register</button>
                     </div>
                 </div>
