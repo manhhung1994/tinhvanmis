@@ -13,13 +13,20 @@ class Nghiphep extends MY_Controller
         $this->load->model('user_model');
         $this->load->model('letter_model');
         $this->load->model('lettertype_model');
-
+        $this->data['page_name'] = 'Danh Sách Đơn Xin Nghỉ';
+        $this->data['page'] = 'nghiphep/index';
     }
 
     function index()
     {
+        if(isset($this->session->userdata['logged_in']))
+        {
+            $id = $this->session->userdata['logged_in']->id;
+        }
+        $input = array();
+        $input['where'] = array('userID' => $id);
+        $this->data['data'] = $this->letter_model->get_list($input);
         $this->data['page'] = 'nghiphep/index';
-        $this->data['data'] = $this->letter_model->get_list();
         $this->load->view('main',$this->data);
     }
     function approvalData()

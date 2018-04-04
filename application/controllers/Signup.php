@@ -8,6 +8,12 @@
 class Signup extends MY_Controller
 {
     private $_message = 'message';
+    function __construct()
+    {
+        parent::__construct();
+        $this->data['page_name'] = 'Đăng ký';
+        $this->data['page'] = 'signup/index';
+    }
 
     function index()
     {

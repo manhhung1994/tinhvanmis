@@ -15,6 +15,7 @@ class Home extends MY_Controller
     function index()
     {
         $this->data['page'] = 'home/index';
+        $this->data['page_name'] = 'Trang chủ';
         $this->load->view('main',$this->data);
     }
     function logout()

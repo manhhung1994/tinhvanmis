@@ -7,6 +7,15 @@
  */
 Class Login extends MY_Controller
 {
+    function __construct()
+    {
+        parent::__construct();
+        $this->data['page_name'] = 'Đăng nhập';
+        $this->data['page'] = 'login/index';
+
+    }
+
+
     function index()
     {
         $this->load->library('form_validation');
@@ -15,16 +24,17 @@ Class Login extends MY_Controller
             $this->form_validation->set_rules('login', 'login', 'callback_check_login');
             if ($this->form_validation->run())
             {
-                $session_data = array(
-                    'email' => $this->input->post('email'),
-                );
+                $email = $this->input->post('email');
+                $input = array();
+                $input['where'] = array('email'=> $email);
+
+                $session_data = $this->user_model->get_row($input);
                 $this->session->set_userdata('logged_in',$session_data);
-//                var_dump($this->session->userdata('login'));die();
+
 
                 redirect(base_url().'home');
             }
         }
-        $this->data['page'] = 'login/index';
         $this->load->view('main',$this->data);
     }
     function check_login()

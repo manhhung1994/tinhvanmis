@@ -1,20 +1,11 @@
-<div class="inner-header">
-    <div class="container">
-        <div class="pull-left">
-            <h6 class="inner-title">Danh sách đơn xin nghỉ</h6>
-        </div>
-        <div class="pull-right">
-            <div class="beta-breadcrumb font-large">
-                <button type="button" class="btn btn-danger modal-click" data-toggle="modal" data-target="#createModel" data-whatever="@mdo">Nộp đơn mới</button>
-<!--                <a href="--><?php //echo base_url('nghiphep/add')?><!--" class ="btn btn-danger">Nộp đơn mới</a>-->
-            </div>
-        </div>
-        <div class="clearfix"></div>
-    </div>
-</div>
 
 <div class="container">
+    <button type="button" class="btn btn-danger modal-click" data-toggle="modal" data-target="#createModel" data-whatever="@mdo">Nộp đơn mới</button>
+
     <div id="content">
+        <label for="">Tổng số ngày nghỉ còn lại : <?php echo $this->session->userdata['logged_in']->dayoff_num ?></label>
+
+
         <table class="table table-bordered">
         <thead>
         <tr>
@@ -32,7 +23,7 @@
             <?php foreach ($data as $row):?>
         <tr>
             <th scope="row"><?php echo $row->id ?></th>
-            <td><?php echo $row->userID ?></td>
+            <td><?php echo $this->session->userdata['logged_in']->name ?></td>
             <td><?php echo $row->letterTypeID ?></td>
             <td><?php echo $row->created_at ?></td>
             <td><?php echo $row->statusID ?></td>

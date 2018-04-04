@@ -1,3 +1,4 @@
+
 <div id="header">
     <div class="header-top">
         <div class="container">
@@ -10,7 +11,7 @@
             <div class="pull-right auto-width-right">
                 <ul class="top-details menu-beta l-inline">
                     <?php if(isset($this->session->userdata['logged_in'])): ?>
-                        <li><a href="<?php echo base_url('nghiphep')?>"><i class="fa fa-user"></i><?php echo $this->session->userdata['logged_in']['email'] ?></a></li>
+                        <li><a href="<?php echo base_url('nghiphep')?>"><i class="fa fa-user"></i><?php echo $this->session->userdata['logged_in']->email ?></a></li>
                         <li><a href="<?php echo base_url('home/logout')?>">Đăng xuất</a></li>
 
                     <?php else: ?>
@@ -26,7 +27,7 @@
     <div class="header-body">
         <div class="container beta-relative">
             <div class="pull-left">
-                <a href="#" id="logo"><img src="<?php echo public_url()?>assets/dest/images/tinhvan2.png" width="200px" alt=""></a>
+                <a href="<?php echo base_url('home')?>" id="logo"><img src="<?php echo public_url()?>assets/dest/images/tinhvan2.png" width="200px" alt=""></a>
             </div>
             <div class="clearfix"></div>
         </div> <!-- .container -->
@@ -49,3 +50,17 @@
         </div> <!-- .container -->
     </div> <!-- .header-bottom -->
 </div> <!-- #header -->
+
+<div class="inner-header">
+    <div class="container">
+        <div class="pull-left">
+            <h6 class="inner-title"><?php echo $page_name?></h6>
+        </div>
+        <div class="pull-right">
+            <div class="beta-breadcrumb">
+                <a href="index.html">Home</a> / <span><?php echo $page_name?></span>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
