@@ -15,7 +15,6 @@ Class Login extends MY_Controller
 
     }
 
-
     function index()
     {
         $this->load->library('form_validation');
