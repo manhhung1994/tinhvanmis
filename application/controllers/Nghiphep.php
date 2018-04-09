@@ -129,7 +129,6 @@ class Nghiphep extends MY_Controller
     }
     function create()
     {
-
         if($this->input->post())
         {
             $id = $this->input->post('userID');
@@ -146,12 +145,45 @@ class Nghiphep extends MY_Controller
                 'start_at' => $start_at,
                 'end_at' => $end_at,
             );
-            if($this->letter_model->create($data))
+            $updateId= $this->input->post('updateID');
+            if($updateId)
             {
-                echo 'Tao don thanh cong';
+                // process update
+                $this->db->where('id', $updateId);
+                if($this->db->update('letter', $data))
+                    echo 'Update thanh cong';
+                else
+                    echo 'Khong update cong';
             }
             else
-                echo 'Khong thanh cong';
+            {
+                if($this->letter_model->create($data))
+                    echo 'Tao don thanh cong';
+                else
+                    echo 'Khong thanh cong';
+            }
+
+        }
+    }
+    function update()
+    {
+        if($this->input->post())
+        {
+            $id = $this->input->post('userID');
+            $approvalID = $this->input->post('approval');
+            $letterTypeID = $this->input->post('letterType');
+            $start_at = $this->input->post('start_at');
+            $end_at = $this->input->post('end_at');
+            $data = array(
+                'userID' => $id,
+                'approvalID' => $approvalID,
+                'letterTypeID' => $letterTypeID,
+                'start_at' => $start_at,
+                'end_at' => $end_at,
+            );
+            $updateId= $this->input->post('updateID');
+            $this->db->where('id', $updateId);
+
         }
     }
     function duyetdon()

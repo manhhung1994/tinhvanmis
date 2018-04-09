@@ -85,6 +85,7 @@
                     </div>
                     <div class="modal-body">
                         <form id ="create" action="http://localhost/tinhvanmis/nghiphep/add" method="POST">
+                            <input type="hidden" name ="updateID" id = "updateID" value="">
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Nhân Viên</label>
                                 <input readonly type="text" class="form-control" id="name" placeholder="Example input" name = "name" value="<?php echo $this->session->userdata['logged_in']->fullname ?>">
@@ -114,7 +115,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="formGroupExampleInput2">Đến ngày</label>
-                                <input type="datetime-local" class="form-control" value="" name ="end_at" id="end_at" >
+                                <input type="datetime-local" class="form-control" value="" name ="end_at" id="end_at" onmouseup="sub()" onkeyup="sub()" >
                             </div>
                             <div class="form-group">
                                 <label for="formGroupExampleInput2"> Tổng sô ngày nghỉ</label>
@@ -142,13 +143,25 @@
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 
         <script type="text/javascript">
-
+            function sub() {
+                var start = $('#start_at').val();
+                var end = $('#end_at').val();
+                var diff = new Date(end) - new Date(start);
+                $('[name=subtract]').val(new Date(diff).getDate());
+            }
             $('.modal-click').click(function (event) {
                 var id = $(this).attr('id');
+                $('#end_at').val(null);
+                $('#start_at').val(null);
+                $('#subtract').val(null);
+                $('#updateID').val(null);
                 if(id)
                 {
+                    $('#updateID').val(id);
                     $.post('http://localhost/tinhvanmis/nghiphep/getLetterById',{id:id},function (data) {
                         var obj= JSON.parse(data);
+                        var diff = (new Date(obj.end_at) - new Date(obj.start_at));
+                        // alert(new Date(diff).getDate());
                         var start = obj.start_at.replace(" ","T");
                         var end = obj.end_at.replace(" ","T");
                         $('[name=approval]').val( obj.approvalID );
@@ -166,7 +179,7 @@
                     data: $("#create").serialize(), // serializes the form's elements.
                     success: function(data)
                     {
-                        // alert(data); // show response from the php script.
+                        alert(data); // show response from the php script.
                         $('#createModel').modal('hide');
                         location.reload();
                     }
