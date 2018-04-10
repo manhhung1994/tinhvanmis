@@ -1,23 +1,22 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: manhh
- * Date: 3/29/2018
- * Time: 2:12 PM
+ * User: hungtm
+ * Date: 4/10/2018
+ * Time: 3:00 PM
  */
-class Nghiphep extends MY_Controller
+class Duyetdon extends MY_Controller
 {
-    function  __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->load->model('user_model');
         $this->load->model('letter_model');
         $this->load->model('lettertype_model');
         $this->load->model('status_model');
-        $this->data['page_name'] = 'Danh Sách Đơn Xin Nghỉ';
-        $this->data['page'] = 'nghiphep/index';
+        $this->data['page_name'] = 'Danh Sách Đơn Cần Duyệt';
+        $this->data['page'] = 'duyetdon/index';
     }
-
     function index()
     {
         if(isset($this->session->userdata['logged_in']))
@@ -46,7 +45,7 @@ class Nghiphep extends MY_Controller
                 ");
 
             $this->db->from('letter');
-            $this->db->where('userid',$id);
+            $this->db->where('approvalID',$id);
 //        filter
             if($this->input->post('letterTypeID'))
             {
@@ -82,7 +81,7 @@ class Nghiphep extends MY_Controller
 //        $this->db->limit(4);
             // end phan trang
 
-            $this->db->join('user', 'letter.approvalID = user.id');
+            $this->db->join('user', 'letter.userID = user.id');
             $this->db->join('lettertype', 'letter.letterTypeID = lettertype.id');
             $this->db->join('status', 'letter.statusID = status.id');
             $query = $this->db->get();
@@ -95,113 +94,27 @@ class Nghiphep extends MY_Controller
             // letterType
             $letterTypes = $this->lettertype_model->get_list();
             $this->data['letterTypes'] = $letterTypes;
-            $this->data['page'] = 'nghiphep/index';
             $this->load->view('main',$this->data);
         }
-
-
+        $this->load->view('main',$this->data);
     }
-    function approvalData()
+    function approval()
     {
-        if($this->input->post('id'))
-        {
-            $input['where'] = array('leader' => 1);
-            $leaders = $this->user_model->get_list($input);
-            echo (json_encode($leaders));
-        }
-
-
-
-    }
-    function letterTypeData()
-    {
-        $letterTypes = $this->lettertype_model->get_list();
-        echo (json_encode($letterTypes));
-    }
-    function add()
-    {
-        $id =$this->input->post('id');
-        $data = $this->user_model->get_info(1);
-        $input['where'] = array('leader' => 1);
-        $leaders = $this->user_model->get_list($input);
-        array_push($leaders, $data);
-        echo (json_encode($leaders));
-
-    }
-    function create()
-    {
+//        var_dump($this->input->post());die();
         if($this->input->post())
         {
-            $id = $this->input->post('userID');
-//            $name = $this->input->post('name');
+            $id = $this->input->post('updateID');
             $approvalID = $this->input->post('approval');
-            $letterTypeID = $this->input->post('letterType');
-            $start_at = $this->input->post('start_at');
-            $end_at = $this->input->post('end_at');
-            $dayoff_num = $this->input->post('dayoff');
-//            $date = date("Y-m-d H:i:s", strtotime($start_at));
-            $data = array(
-                'userID' => $id,
-                'approvalID' => $approvalID,
-                'letterTypeID' => $letterTypeID,
-                'start_at' => $start_at,
-                'end_at' => $end_at,
-                'dayoff_num' => $dayoff_num,
-            );
-            $updateId= $this->input->post('updateID');
-            if($updateId)
+            $this->db->set('statusID','2' );
+            $this->db->where('id', $id);
+            if($this->db->update('letter'))
             {
-                // process update
-                $this->db->where('id', $updateId);
-                if($this->db->update('letter', $data))
-                    echo 'Update thanh cong';
-                else
-                    echo 'Khong update cong';
+                echo 'Đã duyệt thành công';
             }
             else
             {
-                if($this->letter_model->create($data))
-                    echo 'Tao don thanh cong';
-                else
-                    echo 'Khong thanh cong';
+                echo 'Không thể duyệt';
             }
-
-        }
-    }
-    function update()
-    {
-        if($this->input->post())
-        {
-            $id = $this->input->post('userID');
-            $approvalID = $this->input->post('approval');
-            $letterTypeID = $this->input->post('letterType');
-            $start_at = $this->input->post('start_at');
-            $end_at = $this->input->post('end_at');
-            $data = array(
-                'userID' => $id,
-                'approvalID' => $approvalID,
-                'letterTypeID' => $letterTypeID,
-                'start_at' => $start_at,
-                'end_at' => $end_at,
-            );
-            $updateId= $this->input->post('updateID');
-            $this->db->where('id', $updateId);
-
-        }
-    }
-//    function duyetdon()
-//    {
-//        $this->data['page'] = 'nghiphep/duyetdon';
-//        $this->load->view('main',$this->data);
-//    }
-    function getLetterById()
-    {
-        if($this->input->post('id'))
-        {
-            $id = $this->input->post('id');
-            $letter = $this->letter_model->get_info($id);
-            echo (json_encode($letter));
-
         }
     }
 }
