@@ -37,7 +37,7 @@ class Signup extends MY_Controller
                 $email = $this->input->post('email');
                 $password = $this->input->post('password');
                 $data = array(
-                    'name' => $name,
+                    'fullname' => $name,
                     'email'=> $email,
                     'password' => $password,
                 );

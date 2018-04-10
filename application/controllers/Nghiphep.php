@@ -137,6 +137,7 @@ class Nghiphep extends MY_Controller
             $letterTypeID = $this->input->post('letterType');
             $start_at = $this->input->post('start_at');
             $end_at = $this->input->post('end_at');
+            $dayoff_num = $this->input->post('dayoff');
 //            $date = date("Y-m-d H:i:s", strtotime($start_at));
             $data = array(
                 'userID' => $id,
@@ -144,6 +145,7 @@ class Nghiphep extends MY_Controller
                 'letterTypeID' => $letterTypeID,
                 'start_at' => $start_at,
                 'end_at' => $end_at,
+                'dayoff_num' => $dayoff_num,
             );
             $updateId= $this->input->post('updateID');
             if($updateId)

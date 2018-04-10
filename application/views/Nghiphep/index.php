@@ -111,19 +111,19 @@
                             </div>
                             <div class="form-group">
                                 <label for="formGroupExampleInput2">Từ Ngày</label>
-                                <input type="datetime-local" class="form-control" value="" name= "start_at" id="start_at" >
+                                <input required type="datetime-local" class="form-control" value="" name= "start_at" id="start_at" >
                             </div>
                             <div class="form-group">
                                 <label for="formGroupExampleInput2">Đến ngày</label>
-                                <input type="datetime-local" class="form-control" value="" name ="end_at" id="end_at" onmouseup="sub()" onkeyup="sub()" >
+                                <input required type="datetime-local" class="form-control" value="" name ="end_at" id="end_at" onmouseup="sub()" onkeyup="sub()" >
                             </div>
                             <div class="form-group">
                                 <label for="formGroupExampleInput2"> Tổng sô ngày nghỉ</label>
-                                <input readonly type="text" class="form-control" name = "subtract" id="subtract" value="3">
+                                <input readonly type="text" class="form-control" name = "dayoff" id="dayoff" value="">
                             </div>
                             <div class = "form-group">
                                 <label for="description">Miêu tả</label>
-                                <textarea class="form-control" name ="description" id="description" rows="3"></textarea>
+                                <textarea required class="form-control" name ="description" id="description" rows="3"></textarea>
                             </div>
 
                             <button type="submit" class="btn btn-primary">Save</button>
@@ -147,7 +147,7 @@
                 var start = $('#start_at').val();
                 var end = $('#end_at').val();
                 var diff = new Date(end) - new Date(start);
-                $('[name=subtract]').val(new Date(diff).getDate());
+                $('[name=dayoff]').val(new Date(diff).getDate());
             }
             $('.modal-click').click(function (event) {
                 var id = $(this).attr('id');
@@ -155,6 +155,7 @@
                 $('#start_at').val(null);
                 $('#subtract').val(null);
                 $('#updateID').val(null);
+                $('#dayoff').val(null);
                 if(id)
                 {
                     $('#updateID').val(id);
@@ -168,6 +169,7 @@
                         $('[name=letterType]').val( obj.letterTypeID );
                         $('[name=start_at]').val( start);
                         $('[name=end_at]').val( end);
+                        $('[name=dayoff]').val( obj.dayoff_num);
                     });
                 }
             });
