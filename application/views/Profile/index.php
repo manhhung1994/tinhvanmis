@@ -9,11 +9,13 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 ">
-            <form class="form-horizontal" method="post" action="<?php echo base_url() . 'admin/Admin'; ?>">
+            <form class="form-horizontal" method="post" action="<?php echo base_url() . 'Profile'; ?>">
                 <fieldset>
 
                     <!-- Form Name -->
-                    <legend>User profile form requirement</legend>
+                    <legend> <?php if( isset($notification) && $notification) echo $notification;
+                        else echo "User profile form requirement";?>
+                        </legend>
 
                     <!-- Text input :  Họ và tên-->
                     <div class="form-group">
@@ -226,7 +228,7 @@
                                     </div>
                                     <input required type="text" id="contract_start_at" name="contract_start_at"
                                            placeholder="dd/mm/yyyy" class="form-control" size="35" maxlength="10"
-                                           value="<?php echo public_date_convert($result->contract_end_at)?>"
+                                           value="<?php echo public_date_convert($result->contract_start_at)?>"
                                            >
                                 </div>
                             </div>

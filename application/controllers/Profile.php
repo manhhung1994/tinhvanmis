@@ -6,7 +6,7 @@
  * Time: 4:48 PM
  */
 
-Class Admin extends MY_Controller
+Class Profile extends MY_Controller
 {
     var $id='1';
     function __construct()
@@ -72,11 +72,12 @@ Class Admin extends MY_Controller
                     //Upload file image
 
 //                    upload_images()
-                    echo 'Update thanh cong';
-                    die;
+//                    echo 'Update thanh cong';
+                    $this->data['notification']="Cập nhật thông tin thành công!";
                 }
                 else{
-                    echo 'Update that bai';
+//                    echo 'Update that bai';
+                    $this->data['notification']="Có lỗi trong quá trình cập nhật!";
                 }
 //            }
         }
@@ -84,7 +85,7 @@ Class Admin extends MY_Controller
 
         $this->data['result'] = $this->user_model->get_info($this->id);
 
-        $this->data['page'] = 'admin/index';
+        $this->data['page'] = 'Profile/index';
         $this->data['page_name'] = 'Trang chủ';
         $this->load->view('main',$this->data);
     }

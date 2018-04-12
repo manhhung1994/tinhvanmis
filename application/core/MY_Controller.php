@@ -18,10 +18,10 @@ Class MY_Controller extends CI_Controller
 //        $controller = $this->uri->segment(1);
 //        switch ($controller)
 //        {
-//            case 'admin' :
+//            case 'Profile' :
 //                {
-//                    // xu ly tai admin
-//                    $this->load->helper('admin');
+//                    // xu ly tai Profile
+//                    $this->load->helper('Profile');
 //                    $this->_check_login();
 //                    break;
 //                }
@@ -45,7 +45,7 @@ Class MY_Controller extends CI_Controller
 //        {
 //            redirect(admin_url('login'));
 //        }
-//        // neu admin da login
+//        // neu Profile da login
 //        if($login && $controller == 'login')
 //        {
 //            redirect(admin_url('home'));

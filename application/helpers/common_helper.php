@@ -26,7 +26,14 @@ function upload_url($url ='')
  */
 function public_date_convert($date='')
 {
-    return date_format(date_create_from_format('Y-m-d', $date), 'd/m/Y');
+    if(isset($date) && $date!=null ) {
+//        if (checkdate()) kiểm tra đầu vào có đúng định dạng ngày tháng chưa
+
+
+            return date_format(date_create_from_format('Y-m-d', $date), 'd/m/Y');
+    }
+    else
+        return null;
 }
 
 /** khoidh
@@ -35,7 +42,14 @@ function public_date_convert($date='')
  */
 function public_date_unconvert($date='')
 {
-    return date_format(date_create_from_format('d/m/Y', $date), 'Y-m-d');
+    if(isset($date) && $date!=null ) {
+//        if (checkdate()) kiểm tra đầu vào có đúng định dạng ngày tháng chưa
+
+
+        return date_format(date_create_from_format('d/m/Y', $date), 'Y-m-d');
+    }
+    else
+        return null;
 }
 
 
