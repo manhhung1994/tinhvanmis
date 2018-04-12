@@ -51,4 +51,35 @@ Class MY_Controller extends CI_Controller
 //            redirect(admin_url('home'));
 //        }
     }
+
+    /*
+     * upload 1 file ảnh
+     * $file    : file upload (đường dẫn đầy đủ)
+     * $upload_path : đường dẫn đến thư mục dích
+     */
+    public function upload_images($file, $upload_path='' ,$new_name='')
+    {
+        if(!isset($upload_path))
+            $config['upload_path']      = upload_url();
+        else
+            $config['upload_path']      = $upload_path;
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size']             = 100;
+        $config['max_width']            = 1024;
+        $config['max_height']           = 768;
+        $config['file_name']            = $new_name;
+
+        $this->load->library('upload', $config);
+
+        if ( ! $this->upload->do_upload($file))
+        {
+            return array('error' => $this->upload->display_errors());
+        }
+        else
+        {
+            array('upload_data' => $this->upload->data());
+            return true;
+        }
+    }
 }
+

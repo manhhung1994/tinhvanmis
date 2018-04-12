@@ -38,7 +38,7 @@
             <div class="visible-xs clearfix"></div>
             <nav class="main-menu">
                 <ul class="l-inline ov">
-                    <li><a href="#">Thông tin cá nhân</a></li>
+                    <li><a href="<?php echo base_url('admin/Admin') ?>">Thông tin cá nhân</a></li>
                     <li><a href="#">Đóng góp ý kiến</a></li>
                     <li><a href="#">Các khóa đào tạo</a></li>
                     <li><a href="#">Thông báo - Nội Quy</a></li>
