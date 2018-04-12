@@ -1,7 +1,7 @@
 
 <div class="container">
 
-    <form class="navbar-form" role="search" method="post" action="<?php echo base_url('nghiphep/index')?>">
+    <form class="navbar-form" role="search" method="post" action="<?php echo base_url('duyetdon/index')?>">
         <div class="form-group">
             <select name="letterTypeID" id="letterTypeID" class="form-control">
                 <option value="">Loại đơn</option>

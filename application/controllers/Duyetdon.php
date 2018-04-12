@@ -96,7 +96,7 @@ class Duyetdon extends MY_Controller
             $this->data['letterTypes'] = $letterTypes;
             $this->load->view('main',$this->data);
         }
-        $this->load->view('main',$this->data);
+//        $this->load->view('main',$this->data);
     }
     function approval()
     {
