@@ -82,7 +82,7 @@
                                 <div class="form-group">
                                     <label for="formGroupExampleInput">Nhân Viên</label>
                                     <input readonly type="text" class="form-control" id="name" placeholder="Example input" name = "name" value="<?php echo $this->session->userdata['logged_in']->fullname ?>">
-                                    <input type="hidden" name ="userID" value="<?php echo $this->session->userdata['logged_in']->id ?>">
+                                    <input type="hidden" name ="userID" id="userID" value="<?php echo $this->session->userdata['logged_in']->id ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="approval">Người phụ trách</label>
@@ -132,7 +132,6 @@
 
 <script src="<?php echo public_url()?>assets/dest/js/jquery.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-
 <script type="text/javascript">
     function sub() {
         var start = $('#start_at').val();
@@ -147,11 +146,12 @@
             $('#updateID').val(id);
             $.post('http://localhost/tinhvanmis/nghiphep/getLetterById',{id:id},function (data) {
                 var obj= JSON.parse(data);
+                // alert(data);
                 var diff = (new Date(obj.end_at) - new Date(obj.start_at));
                 // alert(new Date(diff).getDate());
                 var start = obj.start_at.replace(" ","T");
                 var end = obj.end_at.replace(" ","T");
-                // $('[name=approval]').val( obj.approvalID );
+                $('[name=name]').val( obj.fullname );
                 $('[name=letterType]').val( obj.letterTypeID );
                 $('[name=start_at]').val( start);
                 $('[name=end_at]').val( end);

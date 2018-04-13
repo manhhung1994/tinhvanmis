@@ -196,12 +196,32 @@ class Nghiphep extends MY_Controller
 //    }
     function getLetterById()
     {
-        if($this->input->post('id'))
-        {
-            $id = $this->input->post('id');
-            $letter = $this->letter_model->get_info($id);
-            echo (json_encode($letter));
+//        if($this->input->post('id'))
+//        {
+//            $id = $this->input->post('id');
+//            $letter = $this->letter_model->get_info($id);
+//            echo (json_encode($letter));
+//        }
+        $id = $this->input->post('id');
+        $this->db->select("
+                letter.id,
+                letter.userID,
+                letter.approvalID,
+                letter.statusID,
+                letter.letterTypeID,
+                letter.approval_at,
+                letter.created_at,
+                letter.start_at,
+                letter.end_at,
+                letter.description,
+                letter.dayoff_num,
+                user.fullname ,
+                ");
 
-        }
+        $this->db->from('letter');
+        $this->db->where('letter.id',$id);
+        $this->db->join('user', 'letter.userID = user.id');
+        $query = $this->db->get();
+        echo(json_encode($query->row()));
     }
 }

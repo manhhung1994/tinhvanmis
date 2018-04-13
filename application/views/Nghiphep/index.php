@@ -166,6 +166,7 @@
             $('#updateID').val(id);
             $.post('http://localhost/tinhvanmis/nghiphep/getLetterById',{id:id},function (data) {
                 var obj= JSON.parse(data);
+                alert(data);
                 var diff = (new Date(obj.end_at) - new Date(obj.start_at));
                 // alert(new Date(diff).getDate());
                 var start = obj.start_at.replace(" ","T");

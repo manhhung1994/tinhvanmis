@@ -23,6 +23,7 @@ Class Login extends MY_Controller
             $this->form_validation->set_rules('login', 'login', 'callback_check_login');
             if ($this->form_validation->run())
             {
+                $this->update_dayoff();
                 $email = $this->input->post('email');
                 $input = array();
                 $input['where'] = array('email'=> $email);
@@ -35,6 +36,10 @@ Class Login extends MY_Controller
             }
         }
         $this->load->view('main',$this->data);
+    }
+    function update_dayoff()
+    {
+
     }
     function check_login()
     {
