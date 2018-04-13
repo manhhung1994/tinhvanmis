@@ -31,7 +31,7 @@ Class Login extends MY_Controller
                 $this->session->set_userdata('logged_in',$session_data);
 
 
-                redirect(base_url().'home');
+                redirect(base_url('home'));
             }
         }
         $this->load->view('main',$this->data);

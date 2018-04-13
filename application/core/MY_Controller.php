@@ -14,23 +14,24 @@ Class MY_Controller extends CI_Controller
         $this->load->model('user_model');
         $this->load->model('letter_model');
         $this->load->model('lettertype_model');
-//
-//        $controller = $this->uri->segment(1);
-//        switch ($controller)
-//        {
-//            case 'Profile' :
-//                {
-//                    // xu ly tai Profile
-//                    $this->load->helper('Profile');
-//                    $this->_check_login();
-//                    break;
-//                }
-//            default:
-//                {
-//                    //xu ly trang ngoai
-//                }
-//
-//        }
+
+        $controller = $this->uri->rsegment(1);
+        $controller = strtolower($controller);
+//        var_dump($controller);die();
+        $login = $this->session->userdata('logged_in');
+        // neu chua dang nhap
+        if(!$login && $controller != 'login')
+        {
+//            var_dump(123);die();
+            redirect(base_url('login'));
+        }
+//         neu admin da login/
+        if($login && $controller == 'login')
+        {
+//            var_dump(123444);die();
+            redirect(base_url('home'));
+        }
+
     }
     /*
      * kiem tra trang thai dang nhap
