@@ -5,7 +5,7 @@
             <select name="letterTypeID" id="letterTypeID" class="form-control">
                     <option value="">Loại đơn</option>
                 <?php foreach ($lettertypes as $type):?>
-                    <option value="<?php echo $type->id?>"><?php echo $type->lettertypename?></option>
+                    <option value="<?php echo $type->id?>"><?php echo $type->name?></option>
                 <?php endforeach;?>
             </select>
         </div>
@@ -13,7 +13,7 @@
             <select name="statusID" id="statusID" class="form-control">
                 <option value="">Trạng thái</option>
                 <?php foreach ($status as $status):?>
-                    <option value="<?php echo $status->id?>"><?php echo $status->statusname?></option>
+                    <option value="<?php echo $status->id?>"><?php echo $status->name?></option>
                 <?php endforeach;?>
             </select>
         </div>
@@ -34,7 +34,7 @@
 
     <button type="button" class="btn btn-danger modal-click" data-toggle="modal" data-target="#createModel" data-whatever="@mdo">Nộp đơn mới</button>
     <?php if($this->session->userdata['logged_in']->leader):?>
-        <a class="btn btn-info" href="<?php echo base_url('nghiphep/duyetdon')?>">Duyệt đơn</a>
+        <a class="btn btn-info" href="<?php echo base_url('duyetdon/index')?>">Duyệt đơn</a>
     <?php endif;?>
 <!--    filter bar-->
     <div class='pagination'>
@@ -45,18 +45,18 @@
 
 
         <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th scope="col">STT</th>
-            <th scope="col">Người nộp đơn</th>
-            <th scope="col">Loại đơn</th>
-            <th scope="col">Ngày nộp đơn</th>
-            <th scope="col">Trạng thái</th>
-            <th scope="col">Người phê duyệt</th>
-            <th scope="col">Ngày phê duyệt</th>
-            <th scope="col">Thao tác</th>
-        </tr>
-        </thead>
+            <thead>
+                <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">Người nộp đơn</th>
+                    <th scope="col">Loại đơn</th>
+                    <th scope="col">Ngày nộp đơn</th>
+                    <th scope="col">Trạng thái</th>
+                    <th scope="col">Người phê duyệt</th>
+                    <th scope="col">Ngày phê duyệt</th>
+                    <th scope="col">Thao tác</th>
+                </tr>
+            </thead>
         <tbody>
             <?php foreach ($data as $key=> $row):?>
         <tr>
@@ -105,7 +105,7 @@
                                 <label for="letterType">Loại đơn</label>
                                 <select name="letterType" id ="letterType" class="form-control">
                                     <?php foreach ($letterTypes as $key => $type): ?>
-                                            <option value="<?php echo $type->id ?>"><?php echo $type->lettertypename?></option>
+                                            <option value="<?php echo $type->id ?>"><?php echo $type->name?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -138,63 +138,62 @@
         </div>
 
 
-        </script>
-        <script src="<?php echo public_url()?>assets/dest/js/jquery.js"></script>
-        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-
-        <script type="text/javascript">
-            function sub() {
-                var start = $('#start_at').val();
-                var end = $('#end_at').val();
-                var diff = new Date(end) - new Date(start);
-                $('[name=dayoff]').val(new Date(diff).getDate());
-            }
-            $('.modal-click').click(function (event) {
-                var id = $(this).attr('id');
-                $('#end_at').val(null);
-                $('#start_at').val(null);
-                $('#subtract').val(null);
-                $('#updateID').val(null);
-                $('#dayoff').val(null);
-                if(id)
-                {
-                    $('#updateID').val(id);
-                    $.post('http://localhost/tinhvanmis/nghiphep/getLetterById',{id:id},function (data) {
-                        var obj= JSON.parse(data);
-                        var diff = (new Date(obj.end_at) - new Date(obj.start_at));
-                        // alert(new Date(diff).getDate());
-                        var start = obj.start_at.replace(" ","T");
-                        var end = obj.end_at.replace(" ","T");
-                        $('[name=approval]').val( obj.approvalID );
-                        $('[name=letterType]').val( obj.letterTypeID );
-                        $('[name=start_at]').val( start);
-                        $('[name=end_at]').val( end);
-                        $('[name=dayoff]').val( obj.dayoff_num);
-                    });
-                }
-            });
-            $("#create").submit(function(e) {
-                var url = "http://localhost/tinhvanmis/nghiphep/create"; // the script where you handle the form input.
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: $("#create").serialize(), // serializes the form's elements.
-                    success: function(data)
-                    {
-                        alert(data); // show response from the php script.
-                        $('#createModel').modal('hide');
-                        location.reload();
-                    }
-                });
-                e.preventDefault(); // avoid to execute the actual submit of the form.
-            });
-        </script>
 
         </tbody>
-    </table>
+         </table>
     </div>
 </div>
 
+<script src="<?php echo public_url()?>assets/dest/js/jquery.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    function sub() {
+        var start = $('#start_at').val();
+        var end = $('#end_at').val();
+        var diff = new Date(end) - new Date(start);
+        $('[name=dayoff]').val(new Date(diff).getDate());
+    }
+    $('.modal-click').click(function (event) {
+        var id = $(this).attr('id');
+        $('#end_at').val(null);
+        $('#start_at').val(null);
+        $('#subtract').val(null);
+        $('#updateID').val(null);
+        $('#dayoff').val(null);
+        if(id)
+        {
+            $('#updateID').val(id);
+            $.post('http://localhost/tinhvanmis/nghiphep/getLetterById',{id:id},function (data) {
+                var obj= JSON.parse(data);
+                var diff = (new Date(obj.end_at) - new Date(obj.start_at));
+                // alert(new Date(diff).getDate());
+                var start = obj.start_at.replace(" ","T");
+                var end = obj.end_at.replace(" ","T");
+                $('[name=approval]').val( obj.approvalID );
+                $('[name=letterType]').val( obj.letterTypeID );
+                $('[name=start_at]').val( start);
+                $('[name=end_at]').val( end);
+                $('[name=dayoff]').val( obj.dayoff_num);
+            });
+        }
+    });
+    $("#create").submit(function(e) {
+        var url = "http://localhost/tinhvanmis/nghiphep/create"; // the script where you handle the form input.
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: $("#create").serialize(), // serializes the form's elements.
+            success: function(data)
+            {
+                alert(data); // show response from the php script.
+                $('#createModel').modal('hide');
+                location.reload();
+            }
+        });
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+    });
+</script>
 
 
 
