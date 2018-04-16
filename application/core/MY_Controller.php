@@ -22,13 +22,11 @@ Class MY_Controller extends CI_Controller
         // neu chua dang nhap
         if(!$login && $controller != 'login')
         {
-//            var_dump(123);die();
             redirect(base_url('login'));
         }
 //         neu admin da login/
         if($login && $controller == 'login')
         {
-//            var_dump(123444);die();
             redirect(base_url('home'));
         }
 

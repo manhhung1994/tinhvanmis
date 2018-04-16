@@ -8,7 +8,7 @@
 
 Class Profile extends MY_Controller
 {
-    var $id='1';
+//    var $id='1';
     function __construct()
     {
         parent::__construct();
@@ -26,11 +26,12 @@ Class Profile extends MY_Controller
 
         $this->load->library('form_validation');
         $this->load->helper('form');
+        $id = $this->session->userdata['logged_in']->id;
 
         //Nếu có dữ liệu post lên
         if($this->input->post())
         {
-//            echo "<pre>";
+            //            echo "<pre>";
 //            var_dump($_FILES['image']['name']);
 //            die;
             $this->form_validation->set_rules('fullname','tên','required|min_length[8]');
@@ -67,7 +68,7 @@ Class Profile extends MY_Controller
                     'leader'        => $leader
                 );
 
-                if($this->user_model->update($this->id,$data))
+                if($this->user_model->update($id,$data))
                 {
                     //Upload file image
 
@@ -82,9 +83,8 @@ Class Profile extends MY_Controller
 //            }
         }
 
-
-        $this->data['result'] = $this->user_model->get_info($this->id);
-
+        $this->data['result'] = $this->user_model->get_info($id);
+//        var_dump($this->data['result']);
         $this->data['page'] = 'Profile/index';
         $this->data['page_name'] = 'Trang chủ';
         $this->load->view('main',$this->data);

@@ -11,7 +11,7 @@
             <div class="pull-right auto-width-right">
                 <ul class="top-details menu-beta l-inline">
                     <?php if(isset($this->session->userdata['logged_in'])): ?>
-                        <li><a href="<?php echo base_url('nghiphep')?>"><i class="fa fa-user"></i><?php echo $this->session->userdata['logged_in']->email ?></a></li>
+                        <li><a href="<?php echo base_url('profile')?>"><i class="fa fa-user"></i><?php echo $this->session->userdata['logged_in']->email ?></a></li>
                         <li><a href="<?php echo base_url('home/logout')?>">Đăng xuất</a></li>
 
                     <?php else: ?>
@@ -32,6 +32,7 @@
             <div class="clearfix"></div>
         </div> <!-- .container -->
     </div> <!-- .header-body -->
+    <?php if (isset($this->session->userdata['logged_in'])) : ?>
     <div class="header-bottom" style="background-color: #0277b8;">
         <div class="container">
             <a class="visible-xs beta-menu-toggle pull-right" href="#"><span class='beta-menu-toggle-text'>Menu</span> <i class="fa fa-bars"></i></a>
@@ -39,7 +40,7 @@
             <nav class="main-menu">
                 <ul class="l-inline ov">
                     <li><a href="<?php echo base_url('profile') ?>">Thông tin cá nhân</a></li>
-                    <li><a href="#">Đóng góp ý kiến</a></li>
+                    <li><a href="<?php echo base_url('nghiphep') ?>">Xin nghỉ</a></li>
                     <li><a href="#">Các khóa đào tạo</a></li>
                     <li><a href="#">Thông báo - Nội Quy</a></li>
                     <li><a href="#">Chức năng khác</a></li>
@@ -48,7 +49,9 @@
                 <div class="clearfix"></div>
             </nav>
         </div> <!-- .container -->
-    </div> <!-- .header-bottom -->
+    </div>
+    <!-- .header-bottom -->
+    <?php endif;?>
 </div> <!-- #header -->
 
 <div class="inner-header">

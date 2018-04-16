@@ -114,7 +114,8 @@
                                     <label for="description">Miêu tả</label>
                                     <textarea readonly class="form-control" name ="description" id="description" rows="3"></textarea>
                                 </div>
-
+<!--                                <input type="submit" class="btn btn-primary" name="action" value ="Accept">-->
+<!--                                <input type="submit" class="btn btn-danger" name="action" value ="Reject">-->
                                 <button type="submit" class="btn btn-primary">Duyệt đơn</button>
                             </form>
                         </div>

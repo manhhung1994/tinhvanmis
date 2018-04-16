@@ -100,9 +100,9 @@ class Duyetdon extends MY_Controller
     }
     function approval()
     {
-//        var_dump($this->input->post());die();
         if($this->input->post())
         {
+//            var_dump($_POST['action']);die();
             $id = $this->input->post('updateID');
             $approvalID = $this->input->post('approval');
             $this->db->set('statusID','2' );

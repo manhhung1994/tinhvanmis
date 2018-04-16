@@ -14,12 +14,16 @@ class Nghiphep extends MY_Controller
         $this->load->model('letter_model');
         $this->load->model('lettertype_model');
         $this->load->model('status_model');
-        $this->data['page_name'] = 'Danh Sách Đơn Xin Nghỉ';
+        $this->data['page_name'] = 'Quản lý đơn xin nghỉ ';
         $this->data['page'] = 'nghiphep/index';
     }
 
     function index()
     {
+//        if($this->input->post())
+//        {
+//            var_dump($this->input->post());die();
+//        }
         if(isset($this->session->userdata['logged_in']))
         {
             $id = $this->session->userdata['logged_in']->id;
@@ -46,20 +50,19 @@ class Nghiphep extends MY_Controller
                 ");
 
             $this->db->from('letter');
-            $this->db->where('userid',$id);
-//        filter
-            if($this->input->post('letterTypeID'))
-            {
-                $this->db->where('letterTypeID',$this->input->post('letterTypeID'));
-            }
             if($this->input->post('statusID'))
             {
+                $this->db->where('approvalID',$id);
                 $this->db->where('statusID',$this->input->post('statusID'));
+                $this->db->join('user', 'letter.userID = user.id');
+                $this->data['manager'] = 1;
             }
-            if($this->input->post('approvalID'))
+            else
             {
-                $this->db->where('approvalID',$this->input->post('approvalID'));
+                $this->db->where('userID',$id);
+                $this->db->join('user', 'letter.approvalID = user.id');
             }
+
             //end filter
 
             // phan trang
@@ -81,8 +84,7 @@ class Nghiphep extends MY_Controller
 //
 //        $this->db->limit(4);
             // end phan trang
-
-            $this->db->join('user', 'letter.approvalID = user.id');
+//            $this->db->join('user', 'letter.approvalID = user.id');
             $this->db->join('lettertype', 'letter.letterTypeID = lettertype.id');
             $this->db->join('status', 'letter.statusID = status.id');
             $query = $this->db->get();
@@ -95,12 +97,26 @@ class Nghiphep extends MY_Controller
             // letterType
             $letterTypes = $this->lettertype_model->get_list();
             $this->data['letterTypes'] = $letterTypes;
+
+            // lấy số đơn đang chờ duyệt
+
+            $this->data['waiting_num'] = $this->getWaitingLetter();
             $this->data['page'] = 'nghiphep/index';
             $this->load->view('main',$this->data);
         }
 
 
     }
+    function getWaitingLetter()
+    {
+        $id = $this->session->userdata['logged_in']->id;
+        $this->db->select('*');
+        $this->db->from('letter');
+        $this->db->where('approvalID',$id);
+        $this->db->where('statusID','1');
+        return $this->db->count_all_results();
+    }
+
     function approvalData()
     {
         if($this->input->post('id'))

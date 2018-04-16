@@ -5,6 +5,7 @@
 <!-- * Date: 4/10/2018-->
 <!-- * Time: 4:53 PM-->
 <!-- */-->
+<?php //echo ($result->married); die()?>
 
 <div class="container">
     <div class="row">
@@ -13,8 +14,11 @@
                 <fieldset>
 
                     <!-- Form Name -->
-                    <legend> <?php if( isset($notification) && $notification) echo $notification;
-                        else echo "User profile form requirement";?>
+                    <legend>
+                        <h6  style="color: red; text-align: center">
+                            <?php if( isset($notification) && $notification) echo $notification; ?>
+                        </h6>
+                        <br>
                         </legend>
 
                     <!-- Text input :  Họ và tên-->
@@ -91,7 +95,6 @@
                             </label>
                         </div>
                     </div>
-
                     <!-- Multiple Radios (inline) : Gia đình -->
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="married">Gia đình:</label>
