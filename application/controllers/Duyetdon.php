@@ -102,9 +102,7 @@ class Duyetdon extends MY_Controller
     {
         if($this->input->post())
         {
-//            var_dump($_POST['action']);die();
-            $id = $this->input->post('updateID');
-            $approvalID = $this->input->post('approval');
+            $id = $this->input->post('id');
             $this->db->set('statusID','2' );
             $this->db->set('approval_at',mdate("%Y-%m-%d %H:%i:%s") );
             $this->db->where('id', $id);

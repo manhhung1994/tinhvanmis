@@ -107,7 +107,7 @@
 <!--            </div>-->
         </div>
         <div class="col-sm-9 col-md-9">
-            <label for="">Tổng số ngày nghỉ còn lại : <?php echo $this->session->userdata['logged_in']->dayoff_num ?></label>
+<!--            <label for="">Tổng số ngày nghỉ còn lại : --><?php //echo $this->session->userdata['logged_in']->dayoff_num ?><!--</label>-->
 
             <table class="table table-bordered">
                     <thead>
@@ -124,6 +124,7 @@
                         <th scope="col">Ngày duyệt</th>
                         <th scope="col">Trạng thái</th>
 
+
                         <th scope="col">Thao tác</th>
                     </tr>
                     </thead>
@@ -139,7 +140,11 @@
                             <td><?php echo $row->statusname ?></td>
 
                             <td>
-                                <button type="button" id ="<?php echo $row->id ?>" class="btn btn-info modal-click" data-toggle="modal" data-target="#createModel" data-whatever="@mdo">Chi tiết</button>
+                                    <a  href="#" id ="<?php echo $row->id ?>" class="modal-click glyphicon glyphicon-pencil" data-toggle="modal" data-target="#createModel" data-whatever="@mdo" title="Chi tiết"></a>
+                                <?php if(isset($manager)):?>
+                                    <a href="#" id="<?php echo $row->id ?>" class= "glyphicon glyphicon-thumbs-up approval"   title="Đồng ý"></a>
+                                    <a href="#" id="<?php echo $row->id ?>" class = "glyphicon glyphicon-thumbs-down reject" title ="Từ chối" ></a>
+                                <?php endif;?>
                             </td>
 
                         </tr>
@@ -218,42 +223,6 @@
 </div>
 
 <div class="container">
-    <form class="navbar-form" role="search" method="post" action="<?php echo base_url('nghiphep/index')?>">
-        <div class="form-group">
-            <select name="letterTypeID" id="letterTypeID" class="form-control">
-                    <option value="">Loại đơn</option>
-                <?php foreach ($lettertypes as $type):?>
-                    <option value="<?php echo $type->id?>"><?php echo $type->name?></option>
-                <?php endforeach;?>
-            </select>
-        </div>
-        <div class="form-group">
-            <select name="statusID" id="statusID" class="form-control">
-                <option value="">Trạng thái</option>
-                <?php foreach ($status as $status):?>
-                    <option value="<?php echo $status->id?>"><?php echo $status->name?></option>
-                <?php endforeach;?>
-            </select>
-        </div>
-<!--        <div class="form-group">-->
-<!--            <select name="approvalID" id="approvalID" class="form-control">-->
-<!--                <option value="">Người phê duyệt</option>-->
-<!--                --><?php //foreach ($leaders as $leader):?>
-<!--                    <option value="--><?php //echo $leader->id?><!--">--><?php //echo $leader->fullname?><!--</option>-->
-<!--                --><?php //endforeach;?>
-<!--            </select>-->
-<!--        </div>-->
-
-
-
-
-        <button type="submit" id="btn-filter-pending" class="btn btn-default">Tìm kiếm</button>
-    </form>
-
-    <button type="button" class="btn btn-danger modal-click" data-toggle="modal" data-target="#createModel" data-whatever="@mdo">Nộp đơn mới</button>
-    <?php if($this->session->userdata['logged_in']->leader):?>
-        <a class="btn btn-info" href="<?php echo base_url('duyetdon/index')?>">Duyệt đơn</a>
-    <?php endif;?>
 <!--    filter bar-->
     <div class='pagination'>
 <!--        --><?php //echo $this->pagination->create_links();?>
@@ -264,6 +233,30 @@
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
+    // khi click button đồng ý
+    $('.approval').click(function (event) {
+        var id = $(this).attr('id');
+        var r = confirm("Bạn có chắc chắn");
+        if (r == true) {
+            $.post('http://localhost/tinhvanmis/nghiphep/approval',{id:id},function (data) {
+                alert(data);
+                location.reload();
+
+            });
+        }
+    });
+    // khi click vào button từ chối
+    $('.reject').click(function (event) {
+        var id = $(this).attr('id');
+        var r = confirm("Bạn có chắc chắn");
+        if (r == true) {
+            $.post('http://localhost/tinhvanmis/nghiphep/reject',{id:id},function (data) {
+                alert(data);
+                location.reload();
+
+            });
+        }
+    });
     function sub() {
         var start = $('#start_at').val();
         var end = $('#end_at').val();
@@ -292,6 +285,7 @@
                 $('[name=start_at]').val( start);
                 $('[name=end_at]').val( end);
                 $('[name=dayoff]').val( obj.dayoff_num);
+                $('[name=description]').val( obj.description);
             });
         }
     });

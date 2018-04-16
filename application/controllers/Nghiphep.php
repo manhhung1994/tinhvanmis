@@ -55,7 +55,6 @@ class Nghiphep extends MY_Controller
                 $this->db->where('approvalID',$id);
                 $this->db->where('statusID',$this->input->post('statusID'));
                 $this->db->join('user', 'letter.userID = user.id');
-                $this->data['manager'] = 1;
             }
             else
             {
@@ -98,6 +97,11 @@ class Nghiphep extends MY_Controller
             $letterTypes = $this->lettertype_model->get_list();
             $this->data['letterTypes'] = $letterTypes;
 
+            // nếu là đơn chờ duyệt
+            if($this->input->post('statusID') == 1)
+            {
+                $this->data['manager'] = 1;
+            }
             // lấy số đơn đang chờ duyệt
 
             $this->data['waiting_num'] = $this->getWaitingLetter();
@@ -148,6 +152,7 @@ class Nghiphep extends MY_Controller
     {
         if($this->input->post())
         {
+
             $id = $this->input->post('userID');
 //            $name = $this->input->post('name');
             $approvalID = $this->input->post('approval');
@@ -155,6 +160,8 @@ class Nghiphep extends MY_Controller
             $start_at = $this->input->post('start_at');
             $end_at = $this->input->post('end_at');
             $dayoff_num = $this->input->post('dayoff');
+            $description = $this->input->post('description');
+
 //            $date = date("Y-m-d H:i:s", strtotime($start_at));
             $data = array(
                 'userID' => $id,
@@ -163,6 +170,7 @@ class Nghiphep extends MY_Controller
                 'start_at' => $start_at,
                 'end_at' => $end_at,
                 'dayoff_num' => $dayoff_num,
+                'description' => $description,
             );
             $updateId= $this->input->post('updateID');
             if($updateId)
@@ -240,4 +248,40 @@ class Nghiphep extends MY_Controller
         $query = $this->db->get();
         echo(json_encode($query->row()));
     }
+    function approval()
+    {
+        if($this->input->post())
+        {
+            $id = $this->input->post('id');
+            $this->db->set('statusID',2 );
+            $this->db->set('approval_at',mdate("%Y-%m-%d %H:%i:%s") );
+            $this->db->where('id', $id);
+            if($this->db->update('letter'))
+            {
+                echo 'Đã duyệt thành công';
+            }
+            else
+            {
+                echo 'Không thể duyệt';
+            }
+        }    }
+    function reject()
+    {
+        if($this->input->post())
+        {
+            $id = $this->input->post('id');
+            $this->db->set('statusID',3 );
+            $this->db->set('approval_at',mdate("%Y-%m-%d %H:%i:%s") );
+            $this->db->where('id', $id);
+            if($this->db->update('letter'))
+            {
+                echo 'Đã từ chối';
+            }
+            else
+            {
+                echo 'Không thể từ chối';
+            }
+        }
+    }
+
 }
