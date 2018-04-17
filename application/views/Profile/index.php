@@ -5,21 +5,18 @@
 <!-- * Date: 4/10/2018-->
 <!-- * Time: 4:53 PM-->
 <!-- */-->
-<?php //echo ($result->married); die()?>
 
 <div class="container">
     <div class="row">
         <div class="col-md-10 ">
-            <form class="form-horizontal" method="post" action="<?php echo base_url() . 'Profile'; ?>">
+            <form class="form-horizontal" enctype="multipart/form-data" method="post" action="<?php echo base_url() . 'Profile'; ?>">
                 <fieldset>
 
                     <!-- Form Name -->
-                    <legend>
-                        <h6  style="color: red; text-align: center">
-                            <?php if( isset($notification) && $notification) echo $notification; ?>
-                        </h6>
-                        <br>
-                        </legend>
+                    <h4 style="text-align: center;color: red">
+                        <?php if( isset($notification) && $notification) echo $notification;?>
+                    </h4>
+
 
                     <!-- Text input :  Họ và tên-->
                     <div class="form-group">
@@ -31,7 +28,7 @@
                                     </i>
                                 </div>
                                 <input required id="fullname" name="fullname" type="text" placeholder="Tên (Họ và tên)" class="form-control input-md"
-                                 value="<?php echo $result->fullname ?>">
+                                       value="<?php echo $result->fullname ?>">
                             </div>
                         </div>
                     </div>
@@ -41,11 +38,11 @@
                         <label class="col-md-4 control-label" for="image">Ảnh đại diện</label>
                         <div class="col-md-4">
                             <input type="hidden" id="old_image" name="old_image" value="<?php echo $result->image ?>">
-                            <input id="i_image" name="image" class="input-file" type="file"
-                                   accept=".jpg, .jpeg, .png"
-                                   onchange="loadFile(event)"
-                            >
-<!--                                   value="--><?php //echo $result->image ?><!--"-->
+                            <!--                            <input type="file" name="image" id="getFile">-->
+                            <input id="i_image" name=<?php echo $field ?> class="input-file" type="file"
+                                   onchange="loadFile(event)">
+                            <!--                                   accept=".jpg, .jpeg, .png"-->
+                            <!--                                   value="--><?php //echo $result->image ?><!--"-->
                         </div>
                     </div>
 
@@ -85,7 +82,7 @@
                         <div class="col-md-4">
                             <label class="radio-inline" for="gender-0">
                                 <input type="radio" name="gender" id="gender-0" value="0"
-                                       <?php if(!$result->gender)echo "checked='checked'" ?> >
+                                    <?php if(!$result->gender)echo "checked='checked'" ?> >
                                 Nam
                             </label>
                             <label class="radio-inline" for="gender-1">
@@ -95,6 +92,7 @@
                             </label>
                         </div>
                     </div>
+
                     <!-- Multiple Radios (inline) : Gia đình -->
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="married">Gia đình:</label>
@@ -156,64 +154,64 @@
                         </div>
                     </div>
 
-<!--                    <!-- Text input : Địa chỉ mail-->
-<!--                    <div class="form-group">-->
-<!--                        <label class="col-md-4 control-label" for="email">Địa chỉ mail <font-->
-<!--                                    color="Red">*</font></label>-->
-<!--                        <div class="col-md-4">-->
-<!--                            <div class="input-group">-->
-<!--                                <div class="input-group-addon">-->
-<!--                                    <i class="fa fa-envelope-o"></i>-->
-<!---->
-<!--                                </div>-->
-<!--                                <input id="email" name="email" type="text" placeholder="email"-->
-<!--                                       class="form-control input-md">-->
-<!---->
-<!--                                <input type="email" name="email" class="form-control" id="exampleInputEmail1"-->
-<!--                                       aria-describedby="emailHelp" placeholder="Địa chỉ mail">-->
-<!---->
-<!--                            </div>-->
-<!--                            <small id="emailHelp" class="form-text text-muted">Mail của bạn sẽ được bảo mật.</small>-->
-<!---->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                    <!-- Text input : Địa chỉ mail-->
+                    <!--                    <div class="form-group">-->
+                    <!--                        <label class="col-md-4 control-label" for="email">Địa chỉ mail <font-->
+                    <!--                                    color="Red">*</font></label>-->
+                    <!--                        <div class="col-md-4">-->
+                    <!--                            <div class="input-group">-->
+                    <!--                                <div class="input-group-addon">-->
+                    <!--                                    <i class="fa fa-envelope-o"></i>-->
+                    <!---->
+                    <!--                                </div>-->
+                    <!--                                <input id="email" name="email" type="text" placeholder="email"-->
+                    <!--                                       class="form-control input-md">-->
+                    <!---->
+                    <!--                                <input type="email" name="email" class="form-control" id="exampleInputEmail1"-->
+                    <!--                                       aria-describedby="emailHelp" placeholder="Địa chỉ mail">-->
+                    <!---->
+                    <!--                            </div>-->
+                    <!--                            <small id="emailHelp" class="form-text text-muted">Mail của bạn sẽ được bảo mật.</small>-->
+                    <!---->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
 
-<!--                    <!-- Text input : mật khẩu-->
-<!--                    <div class="form-group">-->
-<!--                        <label class="col-md-4 control-label" for="password">Mật khẩu <font color="Red">*</font></label>-->
-<!--                        <div class="col-md-4">-->
-<!--                            <div class="input-group">-->
-<!--                                <div class="input-group-addon">-->
-<!--                                    <i class="glyphicon glyphicon-pencil"></i>-->
-<!---->
-<!--                                </div>-->
-<!--                                <!--                                <input id="password" name="password" type="text" placeholder="password" class="form-control input-md">-->
-<!--                                <input type="password" name="password" class="form-control" id="exampleInputpassword1"-->
-<!--                                       placeholder="Mật khẩu" maxlength="20">-->
-<!---->
-<!--                            </div>-->
-<!---->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                    <!-- Text input : mật khẩu-->
+                    <!--                    <div class="form-group">-->
+                    <!--                        <label class="col-md-4 control-label" for="password">Mật khẩu <font color="Red">*</font></label>-->
+                    <!--                        <div class="col-md-4">-->
+                    <!--                            <div class="input-group">-->
+                    <!--                                <div class="input-group-addon">-->
+                    <!--                                    <i class="glyphicon glyphicon-pencil"></i>-->
+                    <!---->
+                    <!--                                </div>-->
+                    <!--                                <!--                                <input id="password" name="password" type="text" placeholder="password" class="form-control input-md">-->
+                    <!--                                <input type="password" name="password" class="form-control" id="exampleInputpassword1"-->
+                    <!--                                       placeholder="Mật khẩu" maxlength="20">-->
+                    <!---->
+                    <!--                            </div>-->
+                    <!---->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
 
                     <!-- Text input : Nhập lại mật khẩu-->
-<!--                    <div class="form-group">-->
-<!--                        <label class="col-md-4 control-label" for="repassword">Nhập lại mật khẩu <font-->
-<!--                                    color="Red">*</font></label>-->
-<!--                        <div class="col-md-4">-->
-<!--                            <div class="input-group">-->
-<!--                                <div class="input-group-addon">-->
-<!--                                    <i class="glyphicon glyphicon-pencil"></i>-->
-<!---->
-<!--                                </div>-->
-<!--                                <!--                                <input id="repassword" name="repassword" type="text" placeholder="password" class="form-control input-md">-->
-<!--                                <input type="password" name="repassword" class="form-control" id="exampleInputpassword1"-->
-<!--                                       placeholder="Mật khẩu" maxlength="20">-->
-<!---->
-<!--                            </div>-->
-<!---->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                    <div class="form-group">-->
+                    <!--                        <label class="col-md-4 control-label" for="repassword">Nhập lại mật khẩu <font-->
+                    <!--                                    color="Red">*</font></label>-->
+                    <!--                        <div class="col-md-4">-->
+                    <!--                            <div class="input-group">-->
+                    <!--                                <div class="input-group-addon">-->
+                    <!--                                    <i class="glyphicon glyphicon-pencil"></i>-->
+                    <!---->
+                    <!--                                </div>-->
+                    <!--                                <!--                                <input id="repassword" name="repassword" type="text" placeholder="password" class="form-control input-md">-->
+                    <!--                                <input type="password" name="repassword" class="form-control" id="exampleInputpassword1"-->
+                    <!--                                       placeholder="Mật khẩu" maxlength="20">-->
+                    <!---->
+                    <!--                            </div>-->
+                    <!---->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
 
                     <!-- Text input : Ngày bắt đầu hợp đồng-->
                     <div class="form-group">
@@ -232,7 +230,7 @@
                                     <input required type="text" id="contract_start_at" name="contract_start_at"
                                            placeholder="dd/mm/yyyy" class="form-control" size="35" maxlength="10"
                                            value="<?php echo public_date_convert($result->contract_start_at)?>"
-                                           >
+                                    >
                                 </div>
                             </div>
 
@@ -288,23 +286,27 @@
                         <div class="col-md-4">
                             <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> Cập nhật </button>
                             <button type="reset" class="btn btn-danger"><span class="glyphicon glyphicon-remove-sign"></span> Xóa </button>
-<!--                            <a href="#" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> Đăng ký</a>-->
-<!--                            <a href="#" class="btn btn-danger" value=""><span class="glyphicon glyphicon-remove-sign"></span> Xóa</a>-->
+                            <!--                            <a href="#" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> Đăng ký</a>-->
+                            <!--                            <a href="#" class="btn btn-danger" value=""><span class="glyphicon glyphicon-remove-sign"></span> Xóa</a>-->
                         </div>
                     </div>
 
                 </fieldset>
             </form>
         </div>
+        <!--        --><?php
+        //        echo $image_url=upload_url('user/').$result->image.'2.jpg';
+        //        var_dump(file_exists($image_url));
+        //            ?>
         <div class="col-md-2 hidden-xs">
             <img id="output"
                  src="<?php
-            $image_url=upload_url('user/').$result->image;
-            if(file_exists($image_url))
-                echo $image_url;
-            else
-                echo "http://websamplenow.com/30/userprofile/images/avatar.jpg";
-            ?>" class="img-responsive img-thumbnail " >
+                 $image_url=upload_url('user/').$result->image;
+                 if(!empty($result->image) && !file_exists($image_url))
+                     echo $image_url;
+                 else
+                     echo "http://websamplenow.com/30/userprofile/images/avatar.jpg";
+                 ?>" class="img-responsive img-thumbnail " >
         </div>
 
     </div>
@@ -321,10 +323,10 @@
 <link rel="stylesheet" href="<?php echo public_url() ?>/assets/dest/css/bootstrap-datepicker3.css"/>
 
 <script>
-$(document).ready(function () {
-    var date_input = $('input[name="birthday"]'); //our date input has the name "date"
-    var container = $('.input-group form').length > 0 ? $('.input-group form').parent() : "body";
-    date_input.datepicker({
+    $(document).ready(function () {
+        var date_input = $('input[name="birthday"]'); //our date input has the name "date"
+        var container = $('.input-group form').length > 0 ? $('.input-group form').parent() : "body";
+        date_input.datepicker({
             format: 'dd/mm/yyyy',
             container: container,
             todayHighlight: true,
@@ -335,11 +337,11 @@ $(document).ready(function () {
 </script>
 
 <script>
-$(document).ready(function () {
-    // $('#image').val('xxx');
-    var date_input = $('input[name="contract_start_at"]'); //our date input has the name "date"
-    var container = $('.input-group form').length > 0 ? $('.input-group form').parent() : "body";
-    date_input.datepicker({
+    $(document).ready(function () {
+        // $('#image').val('xxx');
+        var date_input = $('input[name="contract_start_at"]'); //our date input has the name "date"
+        var container = $('.input-group form').length > 0 ? $('.input-group form').parent() : "body";
+        date_input.datepicker({
             format: 'dd/mm/yyyy',
             container: container,
             todayHighlight: true,
@@ -350,10 +352,10 @@ $(document).ready(function () {
 </script>
 
 <script>
-$(document).ready(function () {
-    var date_input = $('input[name="contract_end_at"]'); //our date input has the name "date"
-    var container = $('.input-group form').length > 0 ? $('.input-group form').parent() : "body";
-    date_input.datepicker({
+    $(document).ready(function () {
+        var date_input = $('input[name="contract_end_at"]'); //our date input has the name "date"
+        var container = $('.input-group form').length > 0 ? $('.input-group form').parent() : "body";
+        date_input.datepicker({
             format: 'dd/mm/yyyy',
             container: container,
             todayHighlight: true,
