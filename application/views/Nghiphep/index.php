@@ -1,3 +1,4 @@
+<link href="<?php echo public_url('date')?>/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 
 <div class="container">
     <div class="row">
@@ -50,61 +51,7 @@
 <!--                <a href="#" class="list-group-item"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Đơn từ chối</a>-->
             </div>
             <?php endif;?>
-<!--            <div class="panel-group" id="accordion">-->
-<!--                <div class="panel-body">-->
-<!--                    <table class="table">-->
-<!--                        <tr>-->
-<!--                            <td>-->
-<!--                                <h6>-->
-<!--                                    <span class="glyphicon glyphicon-user"></span>-->
-<!--                                    <a href="">User</a>-->
-<!--                                </h6>-->
-<!---->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                            <td>-->
-<!--                                <span class="glyphicon glyphicon-pencil text-primary"></span>-->
-<!--                                <a href="">Tạo đơn mới</a>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                            <td>-->
-<!--                                <span class="glyphicon glyphicon-list-alt"></span>-->
-<!--                                <a href="">Danh sách</a>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                            <td>-->
-<!--                                <h6>-->
-<!--                                    <span class="glyphicon glyphicon-home"></span>-->
-<!--                                    <a href="">Quản lý</a>-->
-<!--                                </h6>-->
-<!---->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                            <td>-->
-<!--                                <span class="glyphicon glyphicon-envelope"></span>-->
-<!--                                <a href="">Đơn chờ duyệt</a>-->
-<!--                                <span class="badge">5</span>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                            <td>-->
-<!--                                <span class="glyphicon glyphicon-ok"></span>-->
-<!--                                <a href="">Đơn đã duyệt</a>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                            <td>-->
-<!--                                <span class="glyphicon glyphicon-remove"></span>-->
-<!--                                <a href="">Đơn từ chối</a>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                    </table>-->
-<!--                </div>-->
-<!--            </div>-->
+
         </div>
         <div class="col-sm-9 col-md-9">
 <!--            <label for="">Tổng số ngày nghỉ còn lại : --><?php //echo $this->session->userdata['logged_in']->dayoff_num ?><!--</label>-->
@@ -185,14 +132,31 @@
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
+
                                         <div class="form-group">
                                             <label for="formGroupExampleInput2">Từ Ngày</label>
-                                            <input required type="datetime-local" class="form-control" value="" name= "start_at" id="start_at" >
+                                            <div class="input-group date form_datetime "  data-date-format="dd MM yyyy - HH:ii p" data-link-field="start_at">
+                                                <input class="form-control"  size="16" type="text" name="start" id="start" value="" readonly>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                            </div>
+                                            <input type="hidden" name="start_at" id="start_at" value="" /><br/>
+
                                         </div>
                                         <div class="form-group">
                                             <label for="formGroupExampleInput2">Đến ngày</label>
-                                            <input required type="datetime-local" class="form-control" value="" name ="end_at" id="end_at" onmouseup="sub()" onkeyup="sub()" >
+                                            <div class="input-group date form_datetime "  data-date-format="dd MM yyyy - HH:ii p" data-link-field="end_at">
+                                                <input class="form-control"  size="16" type="text" name="end" id="end" value="" onmouseup="sub()" onkeyup="sub()" readonly>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                            </div>
+                                            <input type="hidden" name="end_at" id="end_at" value="" /><br/>
+
                                         </div>
+<!--                                        <div class="form-group">-->
+<!--                                            <label for="formGroupExampleInput2">Đến ngày</label>-->
+<!--                                            <input required type="datetime-local" class="form-control" value="" name ="end_at" id="end_at" onmouseup="sub()" onkeyup="sub()" >-->
+<!--                                        </div>-->
                                         <div class="form-group">
                                             <label for="formGroupExampleInput2"> Tổng sô ngày nghỉ</label>
                                             <input readonly type="text" class="form-control" name = "dayoff" id="dayoff" value="">
@@ -260,6 +224,7 @@
     function sub() {
         var start = $('#start_at').val();
         var end = $('#end_at').val();
+        // alert( Date.parse(end));
         var diff = new Date(end) - new Date(start);
         $('[name=dayoff]').val(new Date(diff).getDate());
     }
@@ -276,14 +241,14 @@
             $.post('http://localhost/tinhvanmis/nghiphep/getLetterById',{id:id},function (data) {
                 var obj= JSON.parse(data);
                 // alert(data);
-                var diff = (new Date(obj.end_at) - new Date(obj.start_at));
+                // var diff = (new Date(obj.end_at) - new Date(obj.start_at));
                 // alert(new Date(diff).getDate());
-                var start = obj.start_at.replace(" ","T");
-                var end = obj.end_at.replace(" ","T");
+                // var start = obj.start_at.replace(" ","T");
+                // var end = obj.end_at.replace(" ","T");
                 $('[name=approval]').val( obj.approvalID );
                 $('[name=letterType]').val( obj.letterTypeID );
-                $('[name=start_at]').val( start);
-                $('[name=end_at]').val( end);
+                $('[name=start]').val( obj.start_at);
+                $('[name=end]').val( obj.end_at);
                 $('[name=dayoff]').val( obj.dayoff_num);
                 $('[name=description]').val( obj.description);
             });
@@ -309,4 +274,43 @@
 
 
 
+<!--Datetime picker-->
+<script type="text/javascript" src="<?php echo public_url('date')?>/jquery/jquery-1.8.3.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="<?php echo public_url('date')?>/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<?php echo public_url('date')?>/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="<?php echo public_url('date')?>/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+    });
+    $('.form_date').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    $('.form_time').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 1,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
+    });
+</script>
+<!--end-->
 

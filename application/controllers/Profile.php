@@ -52,7 +52,7 @@ Class Profile extends MY_Controller
                 //set image new name = 'id_user'.image_extension (vd: 1.jpg)
                 $file_ext = pathinfo($image, PATHINFO_EXTENSION);
                 $image=$this->id.'.'.$file_ext;
-                var_dump($image);
+//                var_dump($image);
             }
             else {
                 $image      = $this->input->post('old_image');
@@ -113,7 +113,7 @@ Class Profile extends MY_Controller
     {
         $config['upload_path']          =  $upload_path;
         $config['allowed_types']        = 'jpeg|gif|jpg|png';
-        $config['max_size']             = 100;
+        $config['max_size']             = 1000;
         $config['max_width']            = 1024;
         $config['max_height']           = 768;
         $config['file_name']            = $new_name;

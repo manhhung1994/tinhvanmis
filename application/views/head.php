@@ -11,6 +11,10 @@
 <link rel="stylesheet" title="style" href="<?php echo public_url()?>assets/dest/css/style.css">
 <link rel="stylesheet" href="<?php echo public_url()?>assets/dest/css/animate.css">
 <link rel="stylesheet" title="style" href="<?php echo public_url()?>assets/dest/css/huong-style.css">
+<!--Datetime picker-->
+<!--<link href="--><?php //echo public_url('date')?><!--/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">-->
+<!--<link href="--><?php //echo public_url('date')?><!--/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">-->
+<!--<!--end-->-->
 
 <script src="<?php echo public_url()?>assets/dest/js/jquery.js"></script>
 <script src="<?php echo public_url()?>assets/dest/vendors/jqueryui/jquery-ui-1.10.4.custom.min.js"></script>
