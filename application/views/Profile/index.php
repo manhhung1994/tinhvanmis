@@ -9,13 +9,14 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 ">
-            <form class="form-horizontal" method="post" action="<?php echo base_url() . 'Profile'; ?>">
+            <form class="form-horizontal" enctype="multipart/form-data" method="post" action="<?php echo base_url() . 'Profile'; ?>">
                 <fieldset>
 
                     <!-- Form Name -->
-                    <legend> <?php if( isset($notification) && $notification) echo $notification;
-                        else echo "User profile form requirement";?>
-                        </legend>
+                    <h4 style="text-align: center;color: red">
+                        <?php if( isset($notification) && $notification) echo $notification;?>
+                    </h4>
+
 
                     <!-- Text input :  Họ và tên-->
                     <div class="form-group">
@@ -37,10 +38,10 @@
                         <label class="col-md-4 control-label" for="image">Ảnh đại diện</label>
                         <div class="col-md-4">
                             <input type="hidden" id="old_image" name="old_image" value="<?php echo $result->image ?>">
-                            <input id="i_image" name="image" class="input-file" type="file"
-                                   accept=".jpg, .jpeg, .png"
-                                   onchange="loadFile(event)"
-                            >
+<!--                            <input type="file" name="image" id="getFile">-->
+                            <input id="i_image" name=<?php echo $field ?> class="input-file" type="file"
+                                   onchange="loadFile(event)">
+                            <!--                                   accept=".jpg, .jpeg, .png"-->
 <!--                                   value="--><?php //echo $result->image ?><!--"-->
                         </div>
                     </div>
@@ -293,11 +294,15 @@
                 </fieldset>
             </form>
         </div>
+<!--        --><?php
+//        echo $image_url=upload_url('user/').$result->image.'2.jpg';
+//        var_dump(file_exists($image_url));
+//            ?>
         <div class="col-md-2 hidden-xs">
             <img id="output"
                  src="<?php
             $image_url=upload_url('user/').$result->image;
-            if(file_exists($image_url))
+            if(!empty($result->image) && !file_exists($image_url))
                 echo $image_url;
             else
                 echo "http://websamplenow.com/30/userprofile/images/avatar.jpg";
