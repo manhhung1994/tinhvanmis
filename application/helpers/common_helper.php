@@ -26,13 +26,11 @@ function upload_url($url ='')
  */
 function public_date_convert($date='')
 {
-    if(isset($date) && $date!=null ) {
+    if (!empty($date)) {
 //        if (checkdate()) kiểm tra đầu vào có đúng định dạng ngày tháng chưa
 
-
-            return date_format(date_create_from_format('Y-m-d', $date), 'd/m/Y');
-    }
-    else
+        return date_format(date_create_from_format('Y-m-d', $date), 'd/m/Y');
+    } else
         return null;
 }
 
@@ -42,9 +40,8 @@ function public_date_convert($date='')
  */
 function public_date_unconvert($date='')
 {
-    if(isset($date) && $date!=null ) {
+    if(!empty($date)) {
 //        if (checkdate()) kiểm tra đầu vào có đúng định dạng ngày tháng chưa
-
 
         return date_format(date_create_from_format('d/m/Y', $date), 'Y-m-d');
     }
