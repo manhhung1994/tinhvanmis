@@ -135,7 +135,7 @@
 
                                         <div class="form-group">
                                             <label for="formGroupExampleInput2">Từ Ngày</label>
-                                            <div class="input-group date form_datetime "  data-date-format="dd MM yyyy - HH:ii p" data-link-field="start_at">
+                                            <div class="input-group date form_datetime "  data-date-format="yyyy-mm-dd HH:ii p" data-link-field="start_at">
                                                 <input class="form-control"  size="16" type="text" name="start" id="start" value="" readonly>
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -145,7 +145,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="formGroupExampleInput2">Đến ngày</label>
-                                            <div class="input-group date form_datetime "  data-date-format="dd MM yyyy - HH:ii p" data-link-field="end_at">
+                                            <div class="input-group date form_datetime "  data-date-format="yyyy-mm-dd HH:ii p" data-link-field="end_at">
                                                 <input class="form-control"  size="16" type="text" name="end" id="end" value="" onmouseup="sub()" onkeyup="sub()" readonly>
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -249,6 +249,10 @@
                 $('[name=letterType]').val( obj.letterTypeID );
                 $('[name=start]').val( obj.start_at);
                 $('[name=end]').val( obj.end_at);
+
+                $('[name=start_at]').val( obj.start_at);
+                $('[name=end_at]').val( obj.end_at);
+
                 $('[name=dayoff]').val( obj.dayoff_num);
                 $('[name=description]').val( obj.description);
             });
