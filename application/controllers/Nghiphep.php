@@ -55,6 +55,20 @@ class Nghiphep extends MY_Controller
                 $this->db->where('approvalID',$id);
                 $this->db->where('statusID',$this->input->post('statusID'));
                 $this->db->join('user', 'letter.userID = user.id');
+                switch ($this->input->post('statusID'))
+                {
+                    case 1 :
+                        $this->data['page_name'] = 'Đơn chờ duyệt ';
+                        break;
+                    case 2 :
+                        $this->data['page_name'] = 'Đơn đã duyệt ';
+                        break;
+                    case 3 :
+                        $this->data['page_name'] = 'Đơn từ chối ';
+                        break;
+                    default:
+                        break;
+                }
             }
             else
             {
@@ -62,33 +76,11 @@ class Nghiphep extends MY_Controller
                 $this->db->join('user', 'letter.approvalID = user.id');
             }
 
-            //end filter
 
-            // phan trang
-//        $this->load->library('pagination');
-//        $total_rows = $this->user_model->get_total();
-//
-//        $config['total_rows'] = $total_rows;//tong cac san pham
-//        $config['base_url'] = base_url('nghiphep/index');
-//        $config['per_page'] = 4;
-//        $config['uri_segment'] = 4;
-//        $config['next_link'] = 'Trang kế tiếp';
-//        $config['prev_link'] = 'Trang trước';
-//
-//        $this->pagination->initialize($config);
-//
-//        $segment = $this->uri->segment(4);
-//        $segment = intval($segment);
-////        $input['limit'] = array($config['per_page'] , $segment);
-//
-//        $this->db->limit(4);
-            // end phan trang
-//            $this->db->join('user', 'letter.approvalID = user.id');
             $this->db->join('lettertype', 'letter.letterTypeID = lettertype.id');
             $this->db->join('status', 'letter.statusID = status.id');
             $query = $this->db->get();
             $this->data['data'] = $query->result();
-//        var_dump($query->result());die();
             // leaders
             $input['where'] = array('leader' => 1);
             $leaders = $this->user_model->get_list($input);
