@@ -57,7 +57,7 @@
                 <div class="col-sm-10">
 
                     <div class="input-group date form_datetime "  data-date-format="yyyy-mm-dd HH:ii p" data-link-field="end_at">
-                        <input class="form-control"  size="16" type="text" name="end" id="end" value="" onmouseup="sub()" onkeyup="sub()" readonly>
+                        <input class="form-control"  size="16" type="text" name="end" id="end" value=""  readonly>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                     </div>
@@ -81,7 +81,7 @@
                 <label for="description" class="col-sm-2 col-form-label col-form-label-sm">Miêu tả</label>
                 <div class="col-sm-10">
 
-                    <textarea required class="form-control" name ="description" id="description" rows="3"></textarea>
+                    <textarea onmouseup="sub()" onkeyup="sub()" required class="form-control" name ="description" id="description" rows="3"></textarea>
                 </div>
             </div>
             <div class="form-group row">
@@ -98,6 +98,7 @@
         var end = $('#end_at').val();
         // alert( Date.parse(end));
         var diff = new Date(end) - new Date(start);
+        alert(new Date(diff).getDate());
         $('[name=dayoff]').val(new Date(diff).getDate());
     }
 </script>

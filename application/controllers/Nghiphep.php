@@ -311,6 +311,7 @@ class Nghiphep extends MY_Controller
         {
             if($year = $this->input->post('year'))
             {
+                $this->session->set_flashdata('thongke','Thống kê trong năm '.$year);
                 $start = new DateTime();
                 $start->setDate($year,1,1);
                 $start->setTime(0,0,0);
@@ -322,9 +323,38 @@ class Nghiphep extends MY_Controller
                 $this->db->where('created_at >',$start);
                 $this->db->where('created_at <',$end);
             }
-
+            if($this->input->post('year') && $this->input->post('month'))
+            {
+                $year = $this->input->post('year');
+                $month = $this->input->post('month');
+                $this->session->set_flashdata('thongke','Thống kê trong tháng '.$month.' năm '.$year);
+                $start = new DateTime();
+                $start->setDate($year,$month,1);
+                $start->setTime(0,0,0);
+                $start = $start->format('Y-m-d-H-i-s');
+                $end = new DateTime();
+                $end = $end->setDate($year,$month+1,null);
+                $end->setTime(24,0,0);
+                $end = $end->format('Y-m-d-H-i-s');
+                $this->db->where('created_at >',$start);
+                $this->db->where('created_at <',$end);
+            }
+            else if($this->input->post('month'))
+            {
+                $month = $this->input->post('month');
+                $this->session->set_flashdata('thongke','Thống kê từ đầu nằm cho đến hết tháng '.$month);
+                $start = new DateTime();
+                $start->setDate(date('Y'),1,1);
+                $start->setTime(0,0,0);
+                $start = $start->format('Y-m-d-H-i-s');
+                $end = new DateTime();
+                $end = $end->setDate(date('Y'),$month+1,null);
+                $end->setTime(24,0,0);
+                $end = $end->format('Y-m-d-H-i-s');
+                $this->db->where('created_at >',$start);
+                $this->db->where('created_at <',$end);
+            }
         }
-
         $this->db->group_by('userID'); 
         $query = $this->db->get();
         $this->data['data'] = $query->result_array();
@@ -332,11 +362,13 @@ class Nghiphep extends MY_Controller
         $this->load->view('main',$this->data);
     }
     /*End thong ke*/
+
+    /*Export file csv*/
     function exportcsv()
     {
         if($data_csv = $this->input->post('csv_data'))
         {
-            $filename = "CSV_FILE_".date("YmdH_i_s").'.csv';
+            $filename = "CSV_FILE_".date("Y_m_d_H_i").'.csv';
             header('Content-Type: text/csv; charset=utf-8');
             header('Content-Disposition: attachment; filename='.$filename);
             header('Cache-Control: no-store, no-cache, must-revalidate');
@@ -350,6 +382,7 @@ class Nghiphep extends MY_Controller
                 'Họ tên',
                 'Tổng số ngày phép đã nghỉ',
             ));
+            // fputcsv($handle,'1234');
             foreach (json_decode($data_csv) as $key => $row) {
 
                 // var_dump($row);
@@ -360,4 +393,5 @@ class Nghiphep extends MY_Controller
         }
         
     }
+    /*End export file csv*/
 }

@@ -7,6 +7,7 @@
 
     <!-- Content -->
     <div class="col-md-9 col-sm-9">
+
     	<!--Filter thống kê-->
         <div style="margin-bottom: 10px">
             <form class="navbar-form" role="search" method="post" action="<?php echo base_url('nghiphep/thongke')?>">
@@ -29,6 +30,7 @@
                 <button type="submit" id="btn-filter-pending" class="btn btn-default">Tìm kiếm</button>
             </form>
         </div>
+        <label style="color: red"><?php if($this->session->flashdata('thongke')) echo $this->session->flashdata('thongke');?></label>
         <!--End filter thống kê-->
     	<table class="table table-bordered">
     		<thead>
@@ -38,7 +40,7 @@
     				<th scope="col">Tổng số ngày phép đã nghỉ</th>
     				<th scope="col">Tổng số ngày nghỉ không phép</th>
     				<th scope="col">Số ngày nghỉ còn lại</th>
-    				<th scope="col">Thao tác</th>
+    				<!-- <th scope="col">Thao tác</th> -->
     			</tr>
     		</thead>
     		<tbody>
@@ -49,12 +51,12 @@
     				<td><?php echo $db['dayoff_num'] ?></td>
     				<td>3</td>
     				<td>5</td>
-    				<td>
+    				<!-- <td>
                         <form action="<?php echo base_url('nghiphep/exportcsv')?>" method="post">
                             <input type="hidden" name="csv_data" value="<?php  echo json_encode($db) ?>">
                             <button type= "submit" class="btn btn-primary">Xuất CSV </button>
                         </form>
-                    </td>
+                    </td> -->
 
     			</tr>
     			<?php endforeach;?>	
