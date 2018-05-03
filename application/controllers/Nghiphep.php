@@ -15,15 +15,13 @@ class Nghiphep extends MY_Controller
         $this->load->model('lettertype_model');
         $this->load->model('status_model');
         $this->data['page_name'] = 'Quản lý đơn xin nghỉ ';
+        $this->data['waiting_num'] = $this->getWaitingLetter();
         $this->data['page'] = 'nghiphep/index';
     }
 
     function index()
     {
-//        if($this->input->post())
-//        {
-//            var_dump($this->input->post());die();
-//        }
+
         if(isset($this->session->userdata['logged_in']))
         {
             $id = $this->session->userdata['logged_in']->id;
@@ -52,10 +50,11 @@ class Nghiphep extends MY_Controller
             $this->db->from('letter');
             if($this->input->post('statusID'))
             {
+                $statusID = $this->input->post('statusID');
                 $this->db->where('approvalID',$id);
                 $this->db->where('statusID',$this->input->post('statusID'));
                 $this->db->join('user', 'letter.userID = user.id');
-                switch ($this->input->post('statusID'))
+                switch ($statusID)
                 {
                     case 1 :
                         $this->data['page_name'] = 'Đơn chờ duyệt ';
@@ -65,6 +64,10 @@ class Nghiphep extends MY_Controller
                         break;
                     case 3 :
                         $this->data['page_name'] = 'Đơn từ chối ';
+                        break;
+                    case 4 :
+                        $this->data['page_name'] = 'Thống kê';
+                        $this->data['thongke'] = 1;
                         break;
                     default:
                         break;
@@ -144,20 +147,22 @@ class Nghiphep extends MY_Controller
     {
         if($this->input->post())
         {
-
-            $id = $this->input->post('userID');
-//            $name = $this->input->post('name');
-            $approvalID = $this->input->post('approval');
+            $creator = explode('|', $this->input->post('creator'));
+            $id = intval($creator[0]);
+            $creator_name = $creator[1];
+            $approval = explode('|', $this->input->post('approval'));
+            $approvalID = intval($approval[0]);
+            $approval_name = $approval[1];
             $letterTypeID = $this->input->post('letterType');
             $start_at = $this->input->post('start_at');
             $end_at = $this->input->post('end_at');
             $dayoff_num = $this->input->post('dayoff');
             $description = $this->input->post('description');
-
-//            $date = date("Y-m-d H:i:s", strtotime($start_at));
             $data = array(
                 'userID' => $id,
+                'creator_name' => $creator_name,
                 'approvalID' => $approvalID,
+                'approval_name' => $approval_name,
                 'letterTypeID' => $letterTypeID,
                 'start_at' => $start_at,
                 'end_at' => $end_at,
@@ -177,12 +182,34 @@ class Nghiphep extends MY_Controller
             else
             {
                 if($this->letter_model->create($data))
-                    echo 'Tao don thanh cong';
+                {
+                    // $this->data['message'] = 'Tạo đơn thành công';
+                    $this->session->set_flashdata('message','Tạo đơn thành công');
+                    redirect(base_url('nghiphep/index'));
+                }
                 else
-                    echo 'Khong thanh cong';
+                {
+                    $this->session->set_flashdata('message','Tạo đơn không thành công');
+                    redirect(base_url('nghiphep/create'));
+                }
+
             }
 
         }
+
+        /*Lấy loại đơn*/
+        $letterTypes = $this->lettertype_model->get_list();
+            $this->data['letterTypes'] = $letterTypes;
+        /*End*/
+
+        /*Lấy người approval*/
+        $input['where'] = array('leader' => 1);
+        $leaders = $this->user_model->get_list($input);
+        $this->data['leaders'] = $leaders;
+        /*End*/
+        $this->data['page'] = 'nghiphep/create';
+        $this->load->view('main',$this->data);
+
     }
     function update()
     {
@@ -212,16 +239,13 @@ class Nghiphep extends MY_Controller
 //    }
     function getLetterById()
     {
-//        if($this->input->post('id'))
-//        {
-//            $id = $this->input->post('id');
-//            $letter = $this->letter_model->get_info($id);
-//            echo (json_encode($letter));
-//        }
+
         $id = $this->input->post('id');
         $this->db->select("
                 letter.id,
                 letter.userID,
+                letter.approval_name,
+                letter.creator_name,
                 letter.approvalID,
                 letter.statusID,
                 letter.letterTypeID,
@@ -276,4 +300,64 @@ class Nghiphep extends MY_Controller
         }
     }
 
+    /* chức năng thống kê */
+
+    function thongke()
+    {
+        $this->db->select('userID,creator_name');
+        $this->db->select_sum('dayoff_num');
+        $this->db->from('letter');
+        if($this->input->post())
+        {
+            if($year = $this->input->post('year'))
+            {
+                $start = new DateTime();
+                $start->setDate($year,1,1);
+                $start->setTime(0,0,0);
+                $start = $start->format('Y-m-d-H-i-s');
+                $end = new DateTime();
+                $end = $end->setDate($year,12,31);
+                $end->setTime(24,0,0);
+                $end = $end->format('Y-m-d-H-i-s');
+                $this->db->where('created_at >',$start);
+                $this->db->where('created_at <',$end);
+            }
+
+        }
+
+        $this->db->group_by('userID'); 
+        $query = $this->db->get();
+        $this->data['data'] = $query->result_array();
+        $this->data['page'] = 'nghiphep/thongke';
+        $this->load->view('main',$this->data);
+    }
+    /*End thong ke*/
+    function exportcsv()
+    {
+        if($data_csv = $this->input->post('csv_data'))
+        {
+            $filename = "CSV_FILE_".date("YmdH_i_s").'.csv';
+            header('Content-Type: text/csv; charset=utf-8');
+            header('Content-Disposition: attachment; filename='.$filename);
+            header('Cache-Control: no-store, no-cache, must-revalidate');
+            header('Cache-Control: post-check=0, pre-check=0');
+            header('Expires:0');
+
+            $handle = fopen('php://output','w');
+            fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
+            fputcsv($handle, array(
+                'ID',
+                'Họ tên',
+                'Tổng số ngày phép đã nghỉ',
+            ));
+            foreach (json_decode($data_csv) as $key => $row) {
+
+                // var_dump($row);
+                $row = (array)$row;
+                fputcsv($handle, $row);
+            }
+            fclose($handle);
+        }
+        
+    }
 }
