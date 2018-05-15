@@ -7,20 +7,20 @@
 
     <!-- Content -->
     <div class="col-md-9 col-sm-9">
-        <?php $comment = array();?>
+        <!-- <?php $comment = array();?>
         <?php foreach ($data as $key => $value) :?>
             <?php array_push($comment,intval($value->count)); ?>
-        <?php endforeach; ?>
+        <?php endforeach; ?> -->
     	<!--Filter thống kê-->
-        <?php  ?>
-        <input type="hidden" name="comment" id="comment" value="<?php echo json_encode($comment) ?>">
-        <input type="hidden" name="label" id="label" value="<?php echo json_encode($label)?>">
+        <!-- <?php echo json_encode($data) ?> -->
+        <input type="hidden" name="comment" id="comment" value='<?php echo json_encode($data)?>'>
+        <input type="hidden" name="label" id="label" value='<?php echo json_encode($label)?>'>
         <div style="margin-bottom: 10px">
             <form class="navbar-form" role="search" method="post" action="<?php echo base_url('nghiphep/comments')?>">
                 <div class="form-group">
                     <select value="" name="year" id="year" _autocheck="true" class="form-control">
                         <option value="">Chọn năm</option>
-                        <?php for($i=2000; $i<=date("Y"); $i++):?>
+                        <?php for($i=2015; $i<=date("Y"); $i++):?>
                             <option value="<?php echo $i?>"><?php echo $i?></option>
                         <?php endfor;?>
                     </select>
@@ -57,11 +57,17 @@
 </script>
 <script>
     var temp = $("#comment").val();
-    var comment = (JSON.parse(temp));
-    // var label = $("#label").val();
-    // alert((label));
+    var data = (JSON.parse(temp));
+    var comment = [];
+    var label = [];
+    for (i = 0; i < data.length; i++) { 
+        comment.push(data[i]['count']);
+        time = data[i]['month'] + "-" +data[i]['year'];
+        label.push(time);
+    }
+    // alert(comment);
     var data = {
-  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Agu","Sep","Oct","Nov","Dec"],
+  labels: label,
   datasets: [{
     label: "Comment numbers",
     backgroundColor: "rgba(54, 162, 235, 0.2)",
