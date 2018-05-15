@@ -14,7 +14,7 @@ Class MY_Controller extends CI_Controller
         $this->load->model('user_model');
         $this->load->model('letter_model');
         $this->load->model('lettertype_model');
-
+        $this->load->model('comments_model');
         $controller = $this->uri->rsegment(1);
         $controller = strtolower($controller);
 //        var_dump($controller);die();

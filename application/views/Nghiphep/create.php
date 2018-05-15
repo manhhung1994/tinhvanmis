@@ -28,6 +28,7 @@
                     </select>
                 </div>
             </div>
+            <?php var_dump($letterTypes) ?>
             <div class="form-group row" >
                 <label for="letterType" class="col-sm-2 col-form-label col-form-label-sm">Loại đơn</label>
                 <div class="col-sm-10">

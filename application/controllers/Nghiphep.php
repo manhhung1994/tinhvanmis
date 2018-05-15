@@ -363,6 +363,47 @@ class Nghiphep extends MY_Controller
     }
     /*End thong ke*/
 
+    /*Comment*/
+    function comments()
+    {
+        // $this->db->select('*');
+        
+        // $this->db->from('comments');
+
+        // $query = $this->db->get();
+        // $this->data['data'] = $query->result_array();
+        if($this->input->post())
+        {
+            if($this->input->post('year'))
+            {
+                $year = $this->input->post('year');
+                $sql = 
+                "SELECT    COUNT(*) as count, MONTH(comment_at) as month, YEAR(comment_at) as year
+                 FROM      tinhvanmis.comments 
+                 WHERE     YEAR(comment_at) = $year
+                 GROUP BY  MONTH(comment_at)";
+                 // var_dump($sql);
+            }
+            else
+            {
+                $sql =  
+                    "SELECT    COUNT(*) as count, MONTH(comment_at) as month, YEAR(comment_at) as year
+                     FROM      tinhvanmis.comments 
+                     -- WHERE     YEAR(comment_at) = '2015'
+                     GROUP BY   YEAR(comment_at), MONTH(comment_at)";
+            }
+        }
+
+        $result = $this->db->query($sql);
+        $this->data['data'] = $result->result();
+        $label = array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Agu","Sep","Oct","Nov","Dec");
+        $this->data['label'] = $label;
+
+        // var_dump($result->result());die();            
+        $this->data['page'] = 'nghiphep/comments';
+        $this->load->view('main',$this->data);
+    }
+    /*End comment*/
     /*Export file csv*/
     function exportcsv()
     {
@@ -394,4 +435,5 @@ class Nghiphep extends MY_Controller
         
     }
     /*End export file csv*/
+
 }

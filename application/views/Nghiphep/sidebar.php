@@ -50,8 +50,16 @@
             <form action="<?php echo base_url('nghiphep/thongke')?>" method="post">
                 <input type="hidden"  name = "statusID" value="4">
                 <a href="" onclick="document.forms[3].submit();return false;" class="list-group-item" >
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
                     Thống kê
+
+                </a>
+            </form>
+            <form action="<?php echo base_url('nghiphep/comments')?>" method="post">
+                <input type="hidden"  name = "statusID" value="4">
+                <a href="" onclick="document.forms[4].submit();return false;" class="list-group-item" >
+                    <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
+                    Comment
 
                 </a>
             </form>
